@@ -1,0 +1,5 @@
+.github/
+venv/*
+.idea/
+.run/
+__pycache__/
