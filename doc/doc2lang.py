@@ -38,6 +38,3 @@ subprocess.run(["doc2lang.bat"])
 
 for page in pages + eng + ['"doc2lang.bat"']:
     os.remove(page[1:-1])
-
-for r in rus:
-    os.rename(r[1:-1], r[1:-7] + ".png")
