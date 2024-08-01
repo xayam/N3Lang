@@ -1,8 +1,7 @@
-import colorama
 import winsound
 import concurrent.futures as pool
 from n3compress import compress
-from n3utils import progress
+from n3utils import progress, colorize_bool
 
 
 # import functools
@@ -53,12 +52,7 @@ def main():
                 c += 1
                 result, _, bits, max_count, _ = responses[num]
                 results_ = results_ and result
-                _warning = colorama.Fore.WHITE
-                if results_:
-                    _warning += colorama.Back.GREEN + f"{results_} "
-                else:
-                    _warning += colorama.Back.RED + f"{results_}"
-                _warning += colorama.Style.RESET_ALL
+                _warning = colorize_bool(results_)
                 bits_.append(bits)
                 if bits > max_bits_:
                     max_bits_ = bits
