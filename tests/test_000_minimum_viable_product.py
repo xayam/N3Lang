@@ -35,7 +35,8 @@ def main(w, verbose=1):
             printable = True
         data = decompress(
             _width=w,
-            _count=max_count, _one=max_one,
+            _count=max_count,
+            _one=max_one,
             printable=printable
         )
         if verbose >= 2:
