@@ -1,0 +1,8 @@
+.git/
+.github/
+venv/*
+.idea/
+__pycache__/
+dev/
+.run/
+bin/
