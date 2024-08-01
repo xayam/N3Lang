@@ -16,7 +16,7 @@ False |   100.0% | width =  7 | max_bits_ =  8 | max_count_ =  16 | compressing 
 False |   100.0% | width =  8 | max_bits_ =  8 | max_count_ =  20 | compressing = 100.000% |
 False |   100.0% | width =  9 | max_bits_ =  9 | max_count_ =  29 | compressing = 100.000% |
 False |   100.0% | width = 10 | max_bits_ = 10 | max_count_ =  34 | compressing = 100.000% |
--------------------------------TARGET-POSITION----------------------------------------------
+-------------------------------FIRST-TARGET-POSITION----------------------------------------
 True  |   100.0% | width = 11 | max_bits_ = 10 | max_count_ =  45 | compressing =  90.909% |
 --------------------------------------------------------------------------------------------
 True  |   100.0% | width = 12 | max_bits_ = 10 | max_count_ =  52 | compressing =  83.333% |
