@@ -1,0 +1,96 @@
+import math
+
+from n3utils import colorize_bool
+
+
+def compress(data, printable=True):
+    _w = len(data)
+    _failed = 0
+    _max_count = 0
+    _max_one = 0
+    _ones = 0
+    for i in range(_w):
+        if data[i] == 1:
+            _ones += 1
+    _one = _ones
+    _best = [0 for _ in range(_w)]
+    for i in range(_w):
+        if _ones > 0:
+            _best[i] = 1
+            _ones -= 1
+    _r = data[:]
+    _count = 0
+    while _best != _r:
+        for t in range(_w - 1):
+            if printable:
+                print("Marker C10")
+            for _ in range(_r[t + 1]):
+                _r[t], _r[t + 1] = _r[t + 1], _r[t]
+                _count += 1
+                if printable:
+                    print("Marker C11: after marker C10 _r=" + str(_r))
+            if _best == _r:
+                break
+        if _best == _r:
+            break
+        for t in range(1, _w - 1):
+            if printable:
+                print("Marker C20")
+            for _ in range(_r[t + 1]):
+                _r[t - 1], _r[t + 1] = _r[t + 1], _r[t - 1]
+                _count += 1
+                if printable:
+                    print("Marker C21: after marker C20 _r=" + str(_r))
+        if _count > 2 ** _w:
+            _failed += 1
+            raise Exception("failed > 0")
+    if _count > _max_count:
+        _max_count = _count
+    if _one > _max_one:
+        _max_one = _one
+    _bits = 0
+    _bits += math.ceil(math.log2(_max_count + 1))
+    _bits += math.ceil(math.log2(_w))
+    if _w == 1:
+        _bits += 1
+    result = _bits < _w
+    _warning = colorize_bool(result)
+    _percent = str(100 * _bits / _w)[0:6].rjust(6, ' ')
+    if printable:
+        print(
+            f"{_percent}, " +
+            f"{_warning}, " +
+            f"_bits={_bits}, _w={_w}, _max_count={_max_count}, _max_one={_max_one}"
+        )
+    return result, _percent, _bits, _max_count, _max_one
+
+
+def decompress(_width, _count, _one, _max_count_bits=None, printable=True):
+    _r = [1 for _ in range(_one)] + [0 for _ in range(_width - _one)]
+    if printable:
+        print(f"count_of_operations={_count}, count_of_ones={_one}")
+        print(f"input_for_decompress_data={_r}")
+    while _count > 0:
+        for t in range(_width - 1):
+            if printable:
+                print("Marker D20")
+            for _ in range(1 - _r[t + 1]):
+                _r[t], _r[t + 1] = _r[t + 1], _r[t]
+                _count -= 1
+                if printable:
+                    print("Marker D21: after marker D20 _r=" + str(_r))
+            if _count == 0:
+                break
+        if _count == 0:
+            break
+        for t in range(1, _width - 1):
+            if printable:
+                print("Marker D10")
+            for _ in range(1 - _r[t + 1]):
+                _r[t - 1], _r[t + 1] = _r[t + 1], _r[t - 1]
+                _count -= 1
+                if printable:
+                    print("Marker D11: after marker D10 _r=" + str(_r))
+            if _count == 0:
+                break
+    return _r
