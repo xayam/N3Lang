@@ -9,7 +9,7 @@ def progress(message: str) -> None:
 
 
 def colorize_bool(data: bool) -> str:
-    message = colorama.Fore.WHITE
+    message = colorama.Fore.BLACK
     if data:
         message += colorama.Back.GREEN + f"{data} "
     else:

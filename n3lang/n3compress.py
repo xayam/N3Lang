@@ -68,7 +68,8 @@ def compress(data, printable=True, verbose=0):
     return result, _percent, _bits, _max_count, _max_one
 
 
-def decompress(_width, _count, _one, _max_count_bits=None, printable=True):
+def decompress(_width, _count, _one,
+               _max_count_bits=None, printable=True, verbose=0):
     _r = [1 for _ in range(_one)] + [0 for _ in range(_width - _one)]
     if printable:
         print(f"count_of_operations={_count}, count_of_ones={_one}")
@@ -78,7 +79,11 @@ def decompress(_width, _count, _one, _max_count_bits=None, printable=True):
             if printable:
                 print("Marker D20")
             for _ in range(1 - _r[t + 1]):
+                message = f"{colorize_swap(_r, t, t + 1)} -> "
                 _r[t], _r[t + 1] = _r[t + 1], _r[t]
+                message += f"{colorize_swap(_r, t, t + 1)}"
+                if verbose > 0:
+                    print(message)
                 _count -= 1
                 if printable:
                     print("Marker D21: after marker D20 _r=" + str(_r))
@@ -90,8 +95,12 @@ def decompress(_width, _count, _one, _max_count_bits=None, printable=True):
             if printable:
                 print("Marker D10")
             for _ in range(1 - _r[t + 1]):
+                message = f"{colorize_swap(_r, t - 1, t + 1)} -> "
                 _r[t - 1], _r[t + 1] = _r[t + 1], _r[t - 1]
+                message += f"{colorize_swap(_r, t - 1, t + 1)}"
                 _count -= 1
+                if verbose > 0:
+                    print(message)
                 if printable:
                     print("Marker D11: after marker D10 _r=" + str(_r))
             if _count == 0:
