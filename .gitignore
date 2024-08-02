@@ -6,5 +6,5 @@ __pycache__/
 dev/
 .run/
 bin/
-.lock
+nrcr/Cargo.lock
 n3cr/target/
