@@ -27,7 +27,8 @@ def main(_data: str) -> [list, list]:
 
 
 if __name__ == "__main__":
-    data = "011000100111"
-    i, o = main(data)
-    print(f"Input data for compress: {i}")
-    print(f"Output decompress data: {o}")
+    for data in ["101011"]:# ["011000100111", "111111000000"]:
+        i, o = main(data)
+        print(f"Input data for compress: {i}")
+        print(f"Output decompress data: {o}")
+        print("")
