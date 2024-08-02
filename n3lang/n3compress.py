@@ -1,9 +1,9 @@
 import math
 
-from n3utils import colorize_bool
+from n3utils import colorize_bool, colorize_swap
 
 
-def compress(data, printable=True):
+def compress(data, printable=True, verbose=0):
     _w = len(data)
     _failed = 0
     _max_count = 0
@@ -20,7 +20,11 @@ def compress(data, printable=True):
             if printable:
                 print("Marker C10")
             for _ in range(_r[t + 1]):
+                message = f"{colorize_swap(_r, t, t + 1)} -> "
                 _r[t], _r[t + 1] = _r[t + 1], _r[t]
+                message += f"{colorize_swap(_r, t, t + 1)}"
+                if verbose > 0:
+                    print(message)
                 _count += 1
                 if printable:
                     print("Marker C11: after marker C10 _r=" + str(_r))
@@ -32,7 +36,11 @@ def compress(data, printable=True):
             if printable:
                 print("Marker C20")
             for _ in range(_r[t + 1]):
+                message = f"{colorize_swap(_r, t - 1, t + 1)} -> "
                 _r[t - 1], _r[t + 1] = _r[t + 1], _r[t - 1]
+                message += f"{colorize_swap(_r, t - 1, t + 1)}"
+                if verbose > 0:
+                    print(message)
                 _count += 1
                 if printable:
                     print("Marker C21: after marker C20 _r=" + str(_r))

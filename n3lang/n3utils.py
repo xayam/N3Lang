@@ -9,13 +9,32 @@ def progress(message: str) -> None:
 
 
 def colorize_bool(data: bool) -> str:
-    _warning = colorama.Fore.WHITE
+    message = colorama.Fore.WHITE
     if data:
-        _warning += colorama.Back.GREEN + f"{data} "
+        message += colorama.Back.GREEN + f"{data} "
     else:
-        _warning += colorama.Back.RED + f"{data}"
-    _warning += colorama.Style.RESET_ALL
-    return _warning
+        message += colorama.Back.RED + f"{data}"
+    message += colorama.Style.RESET_ALL
+    return message
+
+
+def colorize_int(data: int) -> str:
+    message = colorama.Fore.BLACK
+    message += colorama.Back.RED + f"{data}"
+    message += colorama.Style.RESET_ALL
+    return message
+
+
+def colorize_swap(data: list, from_pos: int, to_pos: int) -> str:
+    message = ""
+    position = 0
+    for d in data:
+        if position in [from_pos, to_pos]:
+            message += colorize_int(d)
+        else:
+            message += str(d)
+        position += 1
+    return message
 
 
 def fredkin_gate(_a, _b, _c):
