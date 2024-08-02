@@ -1,6 +1,7 @@
 import math
+import winsound
 
-from n3compress import compress, decompress
+from n3compress import n3c_sort, n3c_recovery
 from n3utils import colorize_bool, progress
 
 
@@ -10,7 +11,7 @@ def main(_data: str, verbose=1) -> [list, list]:
         print(f"Current width = {w}")
     arr = [int(char) for char in _data]
     result, percent, bits, max_count, max_one = \
-        compress(
+        n3c_sort(
             arr,
             printable=False,
             verbose=verbose
@@ -20,27 +21,65 @@ def main(_data: str, verbose=1) -> [list, list]:
             f"result={result}, percent={percent}, " +
             f"bits={bits}, max_count={max_count}, max_one={max_one}"
         )
-    r = decompress(
-            _width=w,
-            _count=max_count,
-            _one=max_one,
-            printable=False,
-            verbose=verbose
-    )
-    return arr, r
+    r = []
+    # r = n3c_recovery(
+    #         _width=w,
+    #         _count=max_count,
+    #         _one=max_one,
+    #         printable=False,
+    #         verbose=verbose
+    # )
+    # return arr, r
+    return max_count, max_one
+
+
+def test1():
+    width = 0
+    valid = False
+    while not valid:
+        width += 1
+        pars = []
+        for data in range(2 ** width):
+            arr = f"{data:{width}b}".replace(" ", "0")
+            count, one = main(arr, verbose=0)
+            pars.append(f"{count}_{one}")
+        conflict = 0
+        pars.sort()
+        for i in range(1, len(pars)):
+            if pars[i - 1] == pars[i]:
+                conflict += 1
+        print(f"width={width} | 2 ** width={2 ** width} " +
+              f"| conflict={conflict} | {conflict / 2 ** width}")
+
+def test2():
+    width = 0
+    valid = False
+    while not valid:
+        width += 1
+        pars = []
+        for data in range(2 ** width):
+            arr = f"{data:{width}b}".replace(" ", "0")
+            count, one = main(arr, verbose=0)
+            pars.append(f"{count}_{one}")
+            # res = o == i
+            # if not res:
+            #     i, o = main(arr, verbose=1)
+            # print("Result: " + colorize_bool(res))
+            # print(f"Input data1 for compress: {i}")
+            # print(f"Output n3c_recovery data1: {o}")
+            # print("")
+            # input("[ENTER]:")
+        conflict = 0
+        pars.sort()
+        for i in range(1, len(pars)):
+            if pars[i - 1] == pars[i]:
+                conflict += 1
+        print(f"width={width} | 2 ** width={2 ** width} " +
+              f"| conflict={conflict} | {conflict / 2 ** width}")
 
 
 if __name__ == "__main__":
-    # for data in ["0110", "1001"]: # ["101011"]:# ["011000100111", "111111000000"]:
-    for width in range(11, 12):
-        for data in range(2 ** width):
-            arr = f"{data:{width}b}".replace(" ", "0")
-            i, o = main(arr, verbose=1)
-            res = o == i
-            # if not res:
-            #     i, o = main(arr, verbose=1)
-            print("Result: " + colorize_bool(res))
-            print(f"Input data for compress: {i}")
-            print(f"Output decompress data: {o}")
-            print("")
-            input("[ENTER]:")
+    # for data1 in ["0110", "1001"]: # ["101011"]:# ["011000100111", "111111000000"]:
+    # test1()
+    test2()
+    winsound.Beep(2500, 5000)

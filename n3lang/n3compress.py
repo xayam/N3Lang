@@ -3,7 +3,7 @@ import math
 from n3utils import colorize_bool, colorize_swap
 
 
-def compress(data, printable=True, verbose=0):
+def n3c_sort(data, printable=True, verbose=0):
     _w = len(data)
     _failed = 0
     _max_count = 0
@@ -68,12 +68,12 @@ def compress(data, printable=True, verbose=0):
     return result, _percent, _bits, _max_count, _max_one
 
 
-def decompress(_width, _count, _one,
-               _max_count_bits=None, printable=True, verbose=0):
+def n3c_recovery(_width, _count, _one,
+                 _max_count_bits=None, printable=True, verbose=0):
     _r = [1 for _ in range(_one)] + [0 for _ in range(_width - _one)]
     if printable:
         print(f"count_of_operations={_count}, count_of_ones={_one}")
-        print(f"input_for_decompress_data={_r}")
+        print(f"input_for_recovery_data={_r}")
     while _count > 0:
         for t in range(_width - 1):
             if printable:

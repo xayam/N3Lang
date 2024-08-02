@@ -1,13 +1,12 @@
 import winsound
-from n3compress import compress
+from n3compress import n3c_sort
 from n3utils import progress, colorize_bool
 
+import functools
+import matplotlib.pyplot as plt
 
-# import functools
-# import matplotlib.pyplot as plt
 
-
-def main():
+def difficult():
     try:
         width = int(input("Input WIDTH, default 0 for infinity process: "))
     except ValueError:
@@ -18,7 +17,7 @@ def main():
         current = 1
     else:
         current = width
-    # plt.axis([0, 32, 0, 150])
+    plt.axis([0, 32, 0, 10])
     while True:
         bits_ = []
         max_bits_ = 0
@@ -29,7 +28,7 @@ def main():
         for limit in range(0, 2 ** current):
             c += 1
             arr = [int(char) for char in f"{limit:{current}b}".replace(" ", "0")]
-            result, _, bits, max_count, _ = compress(arr, False)
+            result, _, bits, max_count, _ = n3c_sort(arr, False)
             results_ = results_ and result
             _warning = colorize_bool(results_)
             bits_.append(bits)
@@ -47,7 +46,7 @@ def main():
                 format_percent = " " + format_percent
             format_percent = format_percent.ljust(7, '0')
             message = f"{_warning} | "
-            message += f"{str(100 * limit/ (2 ** current))[0:6].rjust(7, ' ')}% | "
+            message += f"{str(100 * (limit + 1) / (2 ** current))[0:6].rjust(7, ' ')}% | "
             message += f"width = {str(current).rjust(2, ' ')} | "
             message += f"max_bits_ = {str(max_bits_).rjust(2, ' ')} | "
             message += f"max_count_ = {str(max_count_).rjust(3, ' ')} | "
@@ -55,11 +54,15 @@ def main():
             progress(message)
         print("")
         # result = functools.reduce(lambda a, b: a and b, results_)
-        # plt.scatter(current, max(percents_))
-        # plt.pause(0.05)
+        plt.scatter(current, max_count_/current)
+        plt.pause(0.05)
         if width > 0:
             break
         current += 1
+
+
+def main():
+    difficult()
 
 
 if __name__ == "__main__":

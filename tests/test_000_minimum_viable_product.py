@@ -1,4 +1,4 @@
-from n3compress import compress, decompress
+from n3compress import n3c_sort, n3c_recovery
 from n3utils import colorize_bool, progress
 
 
@@ -18,7 +18,7 @@ def main(w, verbose=1):
         printable = False
         if verbose >= 3:
             printable = True
-        result, percent, bits, max_count, max_one = compress(arr, printable)
+        result, percent, bits, max_count, max_one = n3c_sort(arr, printable)
         result_ = result_ and result
         result = colorize_bool(result_)
         percent = float(percent.replace(' ', ''))
@@ -33,7 +33,7 @@ def main(w, verbose=1):
         printable = False
         if verbose >= 2:
             printable = True
-        data = decompress(
+        data = n3c_recovery(
             _width=w,
             _count=max_count,
             _one=max_one,
