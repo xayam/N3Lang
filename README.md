@@ -7,8 +7,8 @@ More details in file "/doc/N3Doc.pdf"
 
 Now I'm making an archivator N3C based on these ideas. 
 More details in the folder "/tests/" , 
-in files test_?.py and test_?.txt and:
-- "/n3lang/n3compressor.py" ,
+in files test_000_???.py and test_???.txt and:
+- "/n3lang/n3compress.py" ,
 - "/n3lang/n3c.py
 
 If you can help with this, please join in.
