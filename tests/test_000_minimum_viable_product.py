@@ -63,8 +63,8 @@ def main(w, verbose=1):
 if __name__ == "__main__":
     # you may set range from 0 and more
     # error when width=4
-    for width in range(4, 5):
+    for width in range(1, 4):
         # for disable output set param 'verbose' to 0
         # for get minimum information set param 'verbose' to 1
         # for get more information set param 'verbose' to 2 or 3
-        main(width, verbose=2)
+        main(width, verbose=1)

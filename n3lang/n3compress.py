@@ -12,12 +12,7 @@ def compress(data, printable=True):
     for i in range(_w):
         if data[i] == 1:
             _ones += 1
-    _one = _ones
-    _best = [0 for _ in range(_w)]
-    for i in range(_w):
-        if _ones > 0:
-            _best[i] = 1
-            _ones -= 1
+    _best = [1 for _ in range(_ones)] + [0 for _ in range(_w - _ones)]
     _r = data[:]
     _count = 0
     while _best != _r:
@@ -46,8 +41,8 @@ def compress(data, printable=True):
             raise Exception("failed > 0")
     if _count > _max_count:
         _max_count = _count
-    if _one > _max_one:
-        _max_one = _one
+    if _ones > _max_one:
+        _max_one = _ones
     _bits = 0
     _bits += math.ceil(math.log2(_max_count + 1))
     _bits += math.ceil(math.log2(_w))
