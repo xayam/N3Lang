@@ -8,3 +8,4 @@ dev/
 bin/
 n3cr/Cargo.lock
 n3cr/target/
+n3cj/demo-rewlis/data/
