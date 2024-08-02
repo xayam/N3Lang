@@ -34,12 +34,12 @@ def main(_data: str, verbose=1) -> [list, list]:
 
 
 def test1():
-    width = 0
+    width = 1
     valid = False
     while not valid:
-        width += 1
+        width *= 2
         pars = []
-        for data in range(2 ** width):
+        for data in [2 ** (width // 2) - 1]:
             arr = f"{data:{width}b}".replace(" ", "0")
             count, one = main(arr, verbose=0)
             pars.append(f"{count}_{one}")
@@ -48,8 +48,7 @@ def test1():
         for i in range(1, len(pars)):
             if pars[i - 1] == pars[i]:
                 conflict += 1
-        print(f"width={width} | 2 ** width={2 ** width} " +
-              f"| conflict={conflict} | {conflict / 2 ** width}")
+        print(f"width={width} | conflict={conflict} | ")
 
 def test2():
     width = 0
@@ -81,5 +80,5 @@ def test2():
 if __name__ == "__main__":
     # for data1 in ["0110", "1001"]: # ["101011"]:# ["011000100111", "111111000000"]:
     # test1()
-    test2()
+    test1()
     winsound.Beep(2500, 5000)

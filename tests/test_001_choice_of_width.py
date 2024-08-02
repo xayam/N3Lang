@@ -25,7 +25,7 @@ def difficult():
         max_percent_ = 0
         results_ = True
         c = 0
-        for limit in range(0, 2 ** current):
+        for limit in [2 ** (width // 2) - 1]:
             c += 1
             arr = [int(char) for char in f"{limit:{current}b}".replace(" ", "0")]
             result, _, bits, max_count, _ = n3c_sort(arr, False)
@@ -54,8 +54,8 @@ def difficult():
             progress(message)
         print("")
         # result = functools.reduce(lambda a, b: a and b, results_)
-        plt.scatter(current, max_count_/current)
-        plt.pause(0.05)
+        # plt.scatter(current, max_count_/current)
+        # plt.pause(0.05)
         if width > 0:
             break
         current += 1
