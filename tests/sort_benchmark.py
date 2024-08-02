@@ -6,7 +6,7 @@ from sorting import insertion_sort, merge_sort, quick_sort
 
 def benchmark(func):
 
-	n = [10 ** 3, 10 ** 4, 10 ** 5, 10 ** 6]
+	n = [10 ** 2, 10 ** 3, 10 ** 4, 10 ** 5]
 
 	for i in n:
 		unsorted = sample(range(0, i), i)

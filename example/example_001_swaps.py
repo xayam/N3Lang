@@ -37,9 +37,9 @@ def test1():
     width = 1
     valid = False
     while not valid:
-        width *= 2
+        width += 1
         pars = []
-        for data in [2 ** (width // 2) - 1]:
+        for data in [2 ** (width // 2) + 1]:
             arr = f"{data:{width}b}".replace(" ", "0")
             count, one = main(arr, verbose=0)
             pars.append(f"{count}_{one}")
