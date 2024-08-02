@@ -6,3 +6,5 @@ __pycache__/
 dev/
 .run/
 bin/
+.lock
+n3cr/target/
