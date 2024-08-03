@@ -107,7 +107,7 @@ def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
 
 
 def validation():
-    for width in [x for x in range(3, 10)]:
+    for width in [x for x in range(4, 64)]:
         no_conflict = True
         max_count = 0
         max_change_tool = 0
@@ -166,7 +166,7 @@ def validation():
             print(pars)
             for i in pars:
                 if pars[i] == pars[s]:
-                    print(f"'{s}' <-> '{i}' = '{pars[s]}'")
+                    print(f"{int(s, 2)} <-> {int(i, 2)} = '{s}' <-> '{i}' = '{pars[s]}'")
                     break
             sys.exit(1)
 
