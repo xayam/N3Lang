@@ -134,7 +134,7 @@ w - width, длина входной последовательности
 def n3c_validation():
     verbose = 0
     # print(desc)
-    for width in [x for x in range(5, 11)]:
+    for width in [x for x in range(7, 8)]:
         no_conflict = True
         max_count = 0
         max_change_tool = 0
@@ -223,13 +223,12 @@ def n3c_validation():
         conflict = []
         for i in r0:
             result[r0[i][0]] = i
-            if len(r0[i]) > 1:
-                for j in r0[i][1:]:
-                    for k in r1:
-                        if j in r1[k]:
-                            result[j] = k
-                            conflict.append(f"{j}_{k}")
-                            break
+            for j in r0[i][1:]:
+                for k in r1:
+                    if j in r1[k]:
+                        result[j] = k
+                        conflict.append(f"{j}_{k}")
+                        # break
         # print(result)
         print(
             f"width={width}",
