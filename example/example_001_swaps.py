@@ -1,8 +1,6 @@
-import math
 import winsound
 
-from n3compress import n3c_sort, n3c_recovery
-from n3utils import colorize_bool, progress
+from n3compress import n3c_sort
 
 
 def main(_data: str, verbose=1) -> [list, list]:
@@ -48,6 +46,7 @@ def test1():
             if pars[i - 1] == pars[i]:
                 conflict += 1
         print(f"width={width} | conflict={conflict} | unique={len(set(pars))}")
+
 
 def test2():
     width = 0
