@@ -107,7 +107,8 @@ def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
 
 
 def validation():
-    for width in [x for x in range(4, 64)]:
+    verbose = 0
+    for width in [x for x in range(1, 32)]:
         no_conflict = True
         max_count = 0
         max_change_tool = 0
@@ -115,13 +116,13 @@ def validation():
         origin_pars = []
         pars = dict()
         s = ""
-        print(s)
         for d in range(2 ** width):
             s = f"{d:{width}b}".replace(" ", "0")
             arr = [int(char) for char in s]
             data = arr[:]
-            print("Compressing...")
-            data, count, ones, zero, pos, tool, change_tool = n3c_sort(data, 1)
+            if verbose > 0:
+                print("Compressing...")
+            data, count, ones, zero, pos, tool, change_tool = n3c_sort(data, verbose)
             pars[s] = f"count={count} ones={ones} pos={pos} tool={tool} exchange={change_tool}"
             origin_pars = pars.copy()
             pars = {k: v for k, v in sorted(pars.items(), key=lambda item: item[1])}
@@ -146,29 +147,35 @@ def validation():
             len_set_pars = len(set(origin_pars.values()))
             no_conflict = len_pars == len_set_pars
             can_compress = max_bits <= width
-            print(
-                f"{colorize_bool(no_conflict)} " + \
-                f"{colorize_bool(can_compress)} " + \
-                f"width={width}, arr={arr}, all={len_pars}, unique={len_set_pars}" + \
-                f"{str(100 * (d + 1) / 2 ** width)[0:6].rjust(7, ' ')}%, " + \
-                # f"arr={arr}, recovery={recovery}, " + \
-                f"max_bits={max_bits}, max_count={max_count}, " + \
-                f"max_change_tool={max_change_tool}")
+            if verbose > 0:
+                print(
+                    f"{colorize_bool(no_conflict)} " + \
+                    f"{colorize_bool(can_compress)} " + \
+                    f"width={width}, arr={arr}, all={len_pars}, unique={len_set_pars}" + \
+                    f"{str(100 * (d + 1) / 2 ** width)[0:6].rjust(7, ' ')}%, " + \
+                    # f"arr={arr}, recovery={recovery}, " + \
+                    f"max_bits={max_bits}, max_count={max_count}, " + \
+                    f"max_change_tool={max_change_tool}")
             if not assertion:
                 print(f"{arr} -> {data} -> {recovery}")
                 print(f"{colorize(' ERROR ')} input != output")
                 sys.exit(1)
             if not no_conflict:
-                print(f"{colorize(' ERROR ')} Collision found")
+                if verbose > 0:
+                    print(f"{colorize(' ERROR ')} Collision found")
                 break
         if not no_conflict:
-            print(origin_pars)
-            print(pars)
+            if verbose > 0:
+                print(origin_pars)
+                print(pars)
             for i in pars:
                 if pars[i] == pars[s]:
-                    print(f"{int(s, 2)} <-> {int(i, 2)} = '{s}' <-> '{i}' = '{pars[s]}'")
+                    print(f"width={str(width).rjust(2, ' ')} | " + \
+                          f"{str(int(s, 2)).rjust(2, ' ')} <-> " + \
+                          f"{str(int(i, 2)).rjust(2, ' ' )} = " + \
+                          f"'{s.rjust(31, ' ')}' <-> " + \
+                          f"'{i.rjust(31, ' ')}' = '{pars[s]}'")
                     break
-            sys.exit(1)
 
 if __name__ == "__main__":
     validation()
