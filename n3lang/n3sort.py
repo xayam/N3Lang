@@ -55,16 +55,16 @@ def n3c_sort(data: list, verbose=0) -> [list, int]:
                         tool = 0
                         change_tool += 1
                 else:
-                    if data[pos - 1] == 1:
-                        pos -= 1
-                    else:
-                        message = f"{colorize_swap(data, pos, pos - 2)} -> "
-                        data[pos], data[pos - 2] = data[pos - 2], data[pos]
-                        message += f"{colorize_swap(data, pos, pos - 2)}"
-                        if verbose > 0:
-                            print(message)
-                        count += 1
-                        pos -= 2
+                    # if data[pos - 1] == 1:
+                    #     pos -= 1
+                    # else:
+                    message = f"{colorize_swap(data, pos, pos - 2)} -> "
+                    data[pos], data[pos - 2] = data[pos - 2], data[pos]
+                    message += f"{colorize_swap(data, pos, pos - 2)}"
+                    if verbose > 0:
+                        print(message)
+                    count += 1
+                    pos -= 2
             else:
                 pos -= 1
     return data, count, ones, width - ones, pos, tool, change_tool
@@ -108,21 +108,24 @@ def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
 
 
 def validation():
-    for width in [x for x in range(1, 1024)]:
+    for width in [x for x in range(3, 1024)]:
         no_conflict = True
         max_count = 0
         max_change_tool = 0
         max_bits = 1
         origin_pars = []
-        pars = []
+        pars = dict()
+        s = ""
         for d in range(2 ** width):
-            arr = [int(char) for char in f"{d:{width}b}".replace(" ", "0")]
+            s = f"{d:{width}b}".replace(" ", "0")
+            arr = [int(char) for char in s]
             data = arr[:]
             print("Compressing...")
-            data, count, ones, zero, pos, tool, change_tool = n3c_sort(data, 0)
-            pars.append(f"c={count}_o={ones}_p={pos}_t={tool}_e={change_tool}")
-            origin_pars = pars[:]
-            pars.sort()
+            data, count, ones, zero, pos, tool, change_tool = n3c_sort(data, 1)
+            pars[s] = f"c={count}_o={ones}_p={pos}_t={tool}_e={change_tool}"
+            origin_pars = pars.copy()
+            pars = {k: v for k, v in sorted(pars.items(), key=lambda item: item[1])}
+
             if count > max_count:
                 max_count = count
             if change_tool > max_change_tool:
@@ -139,8 +142,8 @@ def validation():
             # recovery = n3c_recovery(width, count, ones, pos, tool, change_tool, 1)
             recovery = arr
             assertion = recovery == arr
-            len_pars = len(pars)
-            len_set_pars = len(set(pars))
+            len_pars = len(origin_pars)
+            len_set_pars = len(set(origin_pars.values()))
             no_conflict = len_pars == len_set_pars
             can_compress = max_bits <= width
             print(
@@ -160,7 +163,10 @@ def validation():
                 break
         if not no_conflict:
             print(origin_pars)
-            print(pars)
+            for i in pars:
+                if pars[i] == pars[s]:
+                    print(f"'{s}' : '{i}' : {pars[s]}")
+                    break
             sys.exit(1)
 
 if __name__ == "__main__":
