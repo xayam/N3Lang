@@ -55,7 +55,7 @@ def n3c_sort(data: list, verbose=0) -> [list, int]:
                 change_tool += 1
                 continue
             else:
-               pos = exist_pos
+                pos = exist_pos
             if data[pos - 2] == 0:
                 message = f"{colorize_swap(data, pos, pos - 2)} -> "
                 data[pos], data[pos - 2] = data[pos - 2], data[pos]
@@ -65,6 +65,7 @@ def n3c_sort(data: list, verbose=0) -> [list, int]:
                 count += 1
             pos -= 2
     return data, count, ones, width - ones, pos, tool, change_tool
+
 
 def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
     data = [1] * ones + [0] * (width - ones)
@@ -106,9 +107,26 @@ def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
     return data
 
 
+desc = """
+w - width, длина входной последовательности
+
+9 <-> 6 конфлииктующие числа в десятичной записи
+
+'01001' <-> '00110' конфликтующие числа в бинарной записи
+
+'c=2 o=2 p=0 t=1 e=0' с - count,    общее количество сделанных перестановок.
+                      o - ones,     количество единиц в последовательности.
+                      p - pos,      позиция на которой закончилась сортировка.
+                      t - tool,     способ (один из двух),
+                                    на котором закончилось изменение последовательности.
+                      e - exchange, количество смены tool.
+"""
+
+
 def validation():
     verbose = 0
-    for width in [x for x in range(1, 32)]:
+    print(desc)
+    for width in [x for x in range(5, 10)]:
         no_conflict = True
         max_count = 0
         max_change_tool = 0
@@ -123,7 +141,7 @@ def validation():
             if verbose > 0:
                 print("Compressing...")
             data, count, ones, zero, pos, tool, change_tool = n3c_sort(data, verbose)
-            pars[s] = f"count={count} ones={ones} pos={pos} tool={tool} exchange={change_tool}"
+            pars[s] = f"c={count} o={ones} p={pos} t={tool} e={change_tool}"
             origin_pars = pars.copy()
             pars = {k: v for k, v in sorted(pars.items(), key=lambda item: item[1])}
 
@@ -163,19 +181,31 @@ def validation():
             if not no_conflict:
                 if verbose > 0:
                     print(f"{colorize(' ERROR ')} Collision found")
-                break
+                    print(origin_pars)
+                    print(pars)
+                for i in pars:
+                    if (pars[i] == pars[s]) and (i != s):
+                        print(f"w={str(width).rjust(2, ' ')} | " + \
+                              f"{str(int(s, 2)).rjust(3, ' ')} <-> " + \
+                              f"{str(int(i, 2)).rjust(3, ' ')} = " + \
+                              f"'{s.rjust(9, ' ')}' <-> " + \
+                              f"'{i.rjust(9, ' ')}' = '{pars[s]}'")
+                        break
+                continue
         if not no_conflict:
-            if verbose > 0:
-                print(origin_pars)
-                print(pars)
-            for i in pars:
-                if pars[i] == pars[s]:
-                    print(f"width={str(width).rjust(2, ' ')} | " + \
-                          f"{str(int(s, 2)).rjust(2, ' ')} <-> " + \
-                          f"{str(int(i, 2)).rjust(2, ' ' )} = " + \
-                          f"'{s.rjust(31, ' ')}' <-> " + \
-                          f"'{i.rjust(31, ' ')}' = '{pars[s]}'")
-                    break
+            pass
+            # if verbose > 0:
+            #     print(origin_pars)
+            #     print(pars)
+            # for i in pars:
+            #     if pars[i] == pars[s]:
+            #         print(f"width={str(width).rjust(2, ' ')} | " + \
+            #               f"{str(int(s, 2)).rjust(2, ' ')} <-> " + \
+            #               f"{str(int(i, 2)).rjust(2, ' ' )} = " + \
+            #               f"'{s.rjust(31, ' ')}' <-> " + \
+            #               f"'{i.rjust(31, ' ')}' = '{pars[s]}'")
+            #         break
+
 
 if __name__ == "__main__":
     validation()
@@ -205,7 +235,7 @@ if __name__ == "__main__":
                 max_bits = bits
             x = window
             y = max_count / window
-            message = f"{str(100 * (d + 1)/2 ** window)[0:6].rjust(7, ' ')}% " + \
+            message = f"{str(100 * (d + 1) / 2 ** window)[0:6].rjust(7, ' ')}% " + \
                       f"width={x}, max_bits={max_bits}, max_count={max_count}, " + \
                       f"max_one={max_one}, max_zero={max_zero}, " + \
                       f"percent={str(100 * max_bits / window)[0:6]}"
