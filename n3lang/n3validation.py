@@ -8,7 +8,7 @@ from n3utils import colorize_bool, colorize
 def n3c_validation():
     verbose = 0
     # print(get_annotation())
-    for width in [x for x in range(7, 8)]:
+    for width in [x for x in range(1, 7)]:
         no_conflict = True
         max_count = 0
         max_change_tool = 0
@@ -100,13 +100,14 @@ def n3c_validation():
                     if j in r1[k]:
                         result[j] = k
                         conflict.append(f"{j}_{k}")
-                        # break
+                        break
         # print(result)
-        print(
-            f"width={width}",
-            len(conflict), len(set(conflict)),
-            len(result), len(set(result.values()))
-        )
+        # print(
+        #     f"width={width}",
+        #     conflict, len(set(conflict)),
+        #     result, len(set(result.values()))
+        # )
+
         if not no_conflict:
             pass
             # if verbose > 0:
