@@ -6,8 +6,6 @@ from n3utils import colorize_bool, colorize_swap
 def n3c_sort(data, printable=True, verbose=0):
     _w = len(data)
     _failed = 0
-    _max_count = 0
-    _max_one = 0
     _ones = 0
     for i in range(_w):
         if data[i] == 1:
@@ -47,12 +45,8 @@ def n3c_sort(data, printable=True, verbose=0):
         if _count > 2 ** _w:
             _failed += 1
             raise Exception("failed > 0")
-    if _count > _max_count:
-        _max_count = _count
-    if _ones > _max_one:
-        _max_one = _ones
     _bits = 0
-    _bits += math.ceil(math.log2(_max_count + 1))
+    _bits += math.ceil(math.log2(_count + 1))
     _bits += math.ceil(math.log2(_w))
     if _w == 1:
         _bits += 1
@@ -63,9 +57,9 @@ def n3c_sort(data, printable=True, verbose=0):
         print(
             f"{_percent}, " +
             f"{_warning}, " +
-            f"_bits={_bits}, _w={_w}, _max_count={_max_count}, _max_one={_max_one}"
+            f"_bits={_bits}, _w={_w}, _count={_count}, _ones={_ones}"
         )
-    return result, _percent, _bits, _max_count, _max_one
+    return result, _percent, _bits, _count, _ones
 
 
 def n3c_recovery(_width, _count, _one,

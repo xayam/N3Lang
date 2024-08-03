@@ -34,12 +34,11 @@ def main(_data: str, verbose=1) -> [list, list]:
 
 
 def test1():
-    width = 1
-    valid = False
-    while not valid:
+    width = 0
+    while True:
         width += 1
         pars = []
-        for data in [2 ** (width // 2) + 1]:
+        for data in range(2 ** width):
             arr = f"{data:{width}b}".replace(" ", "0")
             count, one = main(arr, verbose=0)
             pars.append(f"{count}_{one}")
@@ -48,7 +47,7 @@ def test1():
         for i in range(1, len(pars)):
             if pars[i - 1] == pars[i]:
                 conflict += 1
-        print(f"width={width} | conflict={conflict} | ")
+        print(f"width={width} | conflict={conflict} | unique={len(set(pars))}")
 
 def test2():
     width = 0
