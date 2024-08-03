@@ -3,7 +3,7 @@ import sys
 
 import matplotlib.pyplot as plt
 
-from n3utils import progress, colorize_swap, colorize_bool
+from n3utils import progress, colorize_swap, colorize_bool, colorize
 
 
 def n3c_sort(data: list, verbose=0) -> [list, int]:
@@ -108,38 +108,60 @@ def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
 
 
 def validation():
-    for width in [24, 32]:
+    for width in [x for x in range(1, 1024)]:
+        no_conflict = True
         max_count = 0
         max_change_tool = 0
-        max_bits = 0
-        print()
+        max_bits = 1
+        origin_pars = []
+        pars = []
         for d in range(2 ** width):
             arr = [int(char) for char in f"{d:{width}b}".replace(" ", "0")]
             data = arr[:]
-            # print("Compressing...")
+            print("Compressing...")
             data, count, ones, zero, pos, tool, change_tool = n3c_sort(data, 0)
+            pars.append(f"c={count}_o={ones}_p={pos}_t={tool}_e={change_tool}")
+            origin_pars = pars[:]
+            pars.sort()
             if count > max_count:
                 max_count = count
             if change_tool > max_change_tool:
                 max_change_tool = change_tool
-            bits = math.ceil(math.log2(max_count + 1))
+            bits = 1
+            bits += math.ceil(math.log2(max_count + 1))
             bits += math.ceil(math.log2(max_change_tool + 1))
-            bits += math.ceil(math.log2(width))
+            bits += 2 * math.ceil(math.log2(width))
             if bits > max_bits:
                 max_bits = bits
             assertion = data == [1] * ones + [0] * zero
             assert assertion
             # print("Decompressing...")
-            recovery = arr
             # recovery = n3c_recovery(width, count, ones, pos, tool, change_tool, 1)
+            recovery = arr
             assertion = recovery == arr
-            progress(
-                f"{colorize_bool(max_bits < width)} " + \
-                f"{str(100 * d / 2 ** width)[0:6].rjust(7, ' ')}, " + \
+            len_pars = len(pars)
+            len_set_pars = len(set(pars))
+            no_conflict = len_pars == len_set_pars
+            can_compress = max_bits <= width
+            print(
+                f"{colorize_bool(no_conflict)} " + \
+                f"{colorize_bool(can_compress)} " + \
+                f"width={width}, arr={arr}, all={len_pars}, unique={len_set_pars}" + \
+                f"{str(100 * (d + 1) / 2 ** width)[0:6].rjust(7, ' ')}%, " + \
                 # f"arr={arr}, recovery={recovery}, " + \
-                f"width={width}, max_bits={max_bits}, max_count={max_count}, " + \
+                f"max_bits={max_bits}, max_count={max_count}, " + \
                 f"max_change_tool={max_change_tool}")
-            assert assertion
+            if not assertion:
+                print(f"{arr} -> {data} -> {recovery}")
+                print(f"{colorize('ERROR!')} recovery != arr")
+                sys.exit(1)
+            if not no_conflict:
+                print(f"{colorize('ERROR!')} no_conflict=False")
+                break
+        if not no_conflict:
+            print(origin_pars)
+            print(pars)
+            sys.exit(1)
 
 if __name__ == "__main__":
     validation()

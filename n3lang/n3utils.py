@@ -18,7 +18,7 @@ def colorize_bool(data: bool) -> str:
     return message
 
 
-def colorize_int(data: int) -> str:
+def colorize(data) -> str:
     message = colorama.Fore.BLACK
     message += colorama.Back.RED + f"{data}"
     message += colorama.Style.RESET_ALL
@@ -30,7 +30,7 @@ def colorize_swap(data: list, from_pos: int, to_pos: int) -> str:
     position = 0
     for d in data:
         if position in [from_pos, to_pos]:
-            message += colorize_int(d)
+            message += colorize(d)
         else:
             message += str(d)
         position += 1
