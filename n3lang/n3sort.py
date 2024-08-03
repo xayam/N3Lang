@@ -22,51 +22,48 @@ def n3c_sort(data: list, verbose=0) -> [list, int]:
             print(f"pos={pos}, count={count}, tool={tool}, " + \
                   f"change_tool={change_tool}, data={data}")
         if tool == 0:
-            need_change_pos = True
-            for i in range(pos, -1, -1):
-                need_change_pos = need_change_pos and (data[i] == 1)
-            if need_change_pos:
-                pos = width - 1
-            elif data[pos] == 1:
-                if data[pos - 1] == 1:
-                    tool = 1
-                    change_tool += 1
-                else:
-                    message = f"{colorize_swap(data, pos, pos - 1)} -> "
-                    data[pos], data[pos - 1] = data[pos - 1], data[pos]
-                    message += f"{colorize_swap(data, pos, pos - 1)}"
-                    if verbose > 0:
-                        print(message)
-                    count += 1
-                    pos -= 1
+            exist_exchange = False
+            exist_pos = 0
+            for i in list(range(pos, 0, -1)) + list(range(width - 1, -1, -1)):
+                if (data[i] == 1) and (data[i - 1] == 0):
+                    exist_exchange = True
+                    exist_pos = i
+                    break
+            if not exist_exchange:
+                tool = 1
+                change_tool += 1
+                continue
             else:
-                pos -= 1
+                pos = exist_pos
+            message = f"{colorize_swap(data, pos, pos - 1)} -> "
+            data[pos], data[pos - 1] = data[pos - 1], data[pos]
+            message += f"{colorize_swap(data, pos, pos - 1)}"
+            if verbose > 0:
+                print(message)
+            count += 1
+            pos -= 1
         elif tool == 1:
-            if pos == 0:
-                pos = width - 1
-            elif data[pos] == 1:
-                if pos == 1:
-                    tool = 0
-                    change_tool += 1
-                elif data[pos - 2] == 1:
-                    if data[pos - 1] == 1:
-                        pos -= 2
-                    else:
-                        tool = 0
-                        change_tool += 1
-                else:
-                    # if data[pos - 1] == 1:
-                    #     pos -= 1
-                    # else:
-                    message = f"{colorize_swap(data, pos, pos - 2)} -> "
-                    data[pos], data[pos - 2] = data[pos - 2], data[pos]
-                    message += f"{colorize_swap(data, pos, pos - 2)}"
-                    if verbose > 0:
-                        print(message)
-                    count += 1
-                    pos -= 2
+            exist_exchange = False
+            exist_pos = 0
+            for i in list(range(pos, 1, -1)) + list(range(width - 1, 1, -1)):
+                if (data[i] == 1) and (data[i - 2] == 0):
+                    exist_exchange = True
+                    exist_pos = i
+                    break
+            if not exist_exchange:
+                tool = 0
+                change_tool += 1
+                continue
             else:
-                pos -= 1
+               pos = exist_pos
+            if data[pos - 2] == 0:
+                message = f"{colorize_swap(data, pos, pos - 2)} -> "
+                data[pos], data[pos - 2] = data[pos - 2], data[pos]
+                message += f"{colorize_swap(data, pos, pos - 2)}"
+                if verbose > 0:
+                    print(message)
+                count += 1
+            pos -= 2
     return data, count, ones, width - ones, pos, tool, change_tool
 
 def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
@@ -76,19 +73,21 @@ def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
             print(f"pos={pos}, count={count}, tool={tool}, " + \
                   f"change_tool={change_tool}, data={data}")
         if tool == 0:
+
             message = f"{colorize_swap(data, pos, pos + 1)} -> "
             data[pos], data[pos + 1] = data[pos + 1], data[pos]
             message += f"{colorize_swap(data, pos, pos + 1)}"
             if verbose > 0:
                 print(message)
             count -= 1
-            pos -= 1
+            pos += 1
         elif tool == 1:
             if pos == width - 1:
                 pos = 0
             elif data[pos] == 1:
                 if pos == width - 1:
                     tool = 0
+                    change_tool -= 1
                 elif data[pos + 2] == 1:
                     if data[pos + 1] == 1:
                         pos += 2
@@ -108,7 +107,7 @@ def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
 
 
 def validation():
-    for width in [x for x in range(3, 1024)]:
+    for width in [x for x in range(3, 10)]:
         no_conflict = True
         max_count = 0
         max_change_tool = 0
@@ -116,13 +115,14 @@ def validation():
         origin_pars = []
         pars = dict()
         s = ""
+        print(s)
         for d in range(2 ** width):
             s = f"{d:{width}b}".replace(" ", "0")
             arr = [int(char) for char in s]
             data = arr[:]
             print("Compressing...")
             data, count, ones, zero, pos, tool, change_tool = n3c_sort(data, 1)
-            pars[s] = f"c={count}_o={ones}_p={pos}_t={tool}_e={change_tool}"
+            pars[s] = f"count={count} ones={ones} pos={pos} tool={tool} exchange={change_tool}"
             origin_pars = pars.copy()
             pars = {k: v for k, v in sorted(pars.items(), key=lambda item: item[1])}
 
@@ -156,16 +156,17 @@ def validation():
                 f"max_change_tool={max_change_tool}")
             if not assertion:
                 print(f"{arr} -> {data} -> {recovery}")
-                print(f"{colorize('ERROR!')} recovery != arr")
+                print(f"{colorize(' ERROR ')} input != output")
                 sys.exit(1)
             if not no_conflict:
-                print(f"{colorize('ERROR!')} no_conflict=False")
+                print(f"{colorize(' ERROR ')} Collision found")
                 break
         if not no_conflict:
             print(origin_pars)
+            print(pars)
             for i in pars:
                 if pars[i] == pars[s]:
-                    print(f"'{s}' : '{i}' : {pars[s]}")
+                    print(f"'{s}' <-> '{i}' = '{pars[s]}'")
                     break
             sys.exit(1)
 
