@@ -10,7 +10,7 @@ def n3c_validation():
     verbose = 0
     # print(get_annotation())
     print(f"Decompressing...")
-    for width in [4, 8]:  # [8, 32, 512, 65536]
+    for width in [2, 3, 4, 5, 6, 7, 8]:  # [8, 32, 512, 65536]
         no_conflict = True
         # max_count = 0
         # max_change_tool = 0
@@ -25,10 +25,10 @@ def n3c_validation():
             if verbose > 0:
                 print("Compressing...")
             result0, result1 = n3c_sort(data, verbose)
-            print(result0["data"], result1["data"])
-            results0[s] = f"c={result0['count']} o={result0['ones']} " + \
+            # print(result0["data"], result1["data"])
+            results0[s] = f"f={result0['false_operation']} c={result0['count']} o={result0['ones']} " + \
                           f"p={result0['position']} e={result0['tool_change']}"
-            results1[s] = f"c={result1['count']} o={result1['ones']} " + \
+            results1[s] = f"f={result0['false_operation']} c={result1['count']} o={result1['ones']} " + \
                           f"p={result1['position']} e={result1['tool_change']}"
         r0 = dict()
         for k, v in results0.items():
@@ -61,27 +61,27 @@ def n3c_validation():
             len_result, len_set_result
         )
         # if assertion:
-        continue
+        # continue
         for k, v in result.items():
             values = get_n3sort_values(v)
             if values:
-                count, ones, pos, tool, change_tool = values
-                params = {
+                false_operation, count, ones, position, tool_change = values
+                inputs = {
                     "width": width,
+                    "false_operation": false_operation,
                     "count": count,
                     "ones": ones,
-                    "position": pos,
-                    "tool": tool,
-                    "tool_change": change_tool,
+                    "position": position,
+                    "tool_change": tool_change,
                     "verbose": 0
                 }
-                print(f"{v} = '{k}'")
-                recovery = n3lang.n3recovery.n3c_recovery(**params)
+                # print(f"{v} = '{k}'")
+                recovery = n3lang.n3recovery.n3c_recovery(*inputs)
                 assertion = recovery == k
                 print(f"{colorize_bool(assertion)} width={width} | {k} -> '{v}' -> {recovery}")
                 if not assertion:
-                    params["verbose"] = 1
-                    n3lang.n3recovery.n3c_recovery(**params)
+                    inputs["verbose"] = 1
+                    n3lang.n3recovery.n3c_recovery(*inputs)
                     print(f"{colorize_bool(assertion)} ERROR: '{k}' != '{recovery}'")
                     sys.exit(1)
 
