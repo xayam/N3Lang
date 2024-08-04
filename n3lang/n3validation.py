@@ -80,24 +80,32 @@ def n3c_validation():
         if not no_conflict:
             pass
 
-
-if __name__ == "__main__":
+def main():
     # ? P(W)
     # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
-    # W = P(W)
-
+    # C = P(W) + 1
     # P(32) = 10 = math.ceil( sum log2[x + 1], x = 1 to log2[32] )
-    # i.e. math.ceil(log2(10)) + math.ceil(log2(32)) = 4 + 5 = 9 bits
-    # and 1 bit for choice start tool: 9 + 1 = 10 bits
+    # and + 1 bit for choice start tool: 10 + 1 = 11 bits
     windows = [1, 2, 4, 8, 16, 32]
     for width in windows:
         summa = 0
         for x in range(1, math.ceil(math.log2(width + 1))):
             summa += math.log2(x+1)
-        print(f"width={str(width).rjust(2, ' ')}, " +
-              f"summa={str(summa)[:3].rjust(3, ' ')}, " +
-              f"max_bits={str(math.ceil(summa)).rjust(2, ' ')}")
-    sys.exit(0)
+        max_count = math.ceil(math.log2(summa + 1))
+        max_ones = math.ceil(math.log2(width + 1))
+        max_bits = max_count + max_ones + 1
+        percent =
+        print(
+            f"width={str(width).rjust(2, ' ')}, " +
+            f"summa={str(summa)[:3].rjust(3, ' ')}, " +
+            f"max_count={str(max_count).rjust(1, ' ')}, " +
+            f"max_ones={str(max_ones).rjust(1, ' ')}, " +
+            f"max_bits={str(max_bits).rjust(2, ' ')}" +
+            f"percent={str(percent)[:10].rjust(10, ' ')}"
+        )
+
+if __name__ == "__main__":
+    main()
     n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
