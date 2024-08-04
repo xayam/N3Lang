@@ -3,13 +3,13 @@ import math
 from n3utils import colorize_swap, get_sum_width, list_to_str
 
 
-def n3c_recovery(width,
-                 false_operation,
-                 count,
-                 ones,
-                 position,
-                 tool_change,
-                 verbose=0) -> str:
+def n3c_recovery(width: int,
+                 false_operation: int,
+                 count: int,
+                 ones: int,
+                 position: int,
+                 tool_change: int,
+                 verbose: int=0) -> str:
     best = [1] * ones + [0] * (width - ones)
     data = best[:]
     if false_operation:
@@ -20,7 +20,7 @@ def n3c_recovery(width,
     for tool in [0, 1]:
         while (count + tool_change > 0) and (tool_change > - limit):
             if verbose > 0:
-                print(f"c={count} o={ones} p={position} t={tool} " +
+                print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
                       f"e={tool_change}, current={data}")
             if tool == 0:
                 exist_exchange = False
@@ -69,6 +69,7 @@ def n3c_recovery(width,
         if (count == 0) and (tool_change == 0):
             return list_to_str(data)
         data = best[:]
+    # TODO
     return ""
 
 # if position == width - 1:

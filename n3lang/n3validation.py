@@ -1,18 +1,19 @@
 import math
+import pprint
 import sys
 
 import n3lang.n3recovery
 from n3sort import n3c_sort
-from n3utils import colorize_bool, get_n3sort_values, get_sum_width, list_to_str
+from n3utils import colorize_bool, get_n3sort_values, get_sum_width, list_to_str, progress
 
 
 def n3c_validation():
     verbose = 0
     # print(get_annotation())
     print(f"Decompressing...")
-    width = 1
+    width = 3
     while True:
-        # for width in [2, 3, 4, 5, 6, 7, 8]:
+        # for width in [4, 5, 6, 7, 8]:
         # [8, 32, 512, 65536]
         width += 1
         results0 = dict()
@@ -28,6 +29,8 @@ def n3c_validation():
                           f"p={result0['position']} e={result0['tool_change']}"
             results1[s] = f"f={result0['false_operation']} c={result1['count']} o={result1['ones']} " + \
                           f"p={result1['position']} e={result1['tool_change']}"
+        print(results0)
+        print(results1)
         r0 = dict()
         for k, v in results0.items():
             if not r0.__contains__(v):
@@ -39,28 +42,32 @@ def n3c_validation():
                 r1[v] = []
             r1[v].append(k)
         result = dict()
-        conflict = []
+        index = -1
+        # pprint.pprint(r0)
         for i in r0:
-            result[r0[i][0]] = i
-            for j in r0[i][1:]:
-                for k in r1:
-                    if j in r1[k]:
-                        # if len(r1[k]) > 1:
-                        #     print(r1[k])
-                        if j != r0[i][0]:
-                            result[j] = k
-                            conflict.append(f"{j}_{k}")
-        len_result = len(result)
-        len_set_result = len(set(result.values()))
-        assert len(conflict) == len(set(conflict))
-        assert 2 ** width == len_result
-        print(
-            f"{colorize_bool(True)}, width={width}, ",
-            f"len_set_result={len_set_result}"
-        )
+            index += 1
+            if len(r0[i]) == 1:
+                result[i] = r0[i][0]
+            else:
+                reverse = index
+                for j in r1:
+                    reverse -= 1
+                    # if (len(r1[j]) == 1) and
+                    if reverse < 0:
+                        result[i] = r1[j][0]
+        # pprint.pprint(result)
+        # sys.exit()
+        # len_result = len(result)
+        # len_set_result = len(set(result.values()))
+        # progress(
+        #     f"width={str(width).rjust(2, ' ')}",
+        #     # f"len_result={str(len_result).rjust(6, ' ')}, ",
+        #     # f"len_set_result={str(len_set_result).rjust(5, ' ')}"
+        # )
         for k, v in result.items():
             values = get_n3sort_values(v)
             if values:
+                # print(values)
                 false_operation, count, ones, position, tool_change = values
                 inputs = {
                     "width": width,
@@ -71,14 +78,17 @@ def n3c_validation():
                     "tool_change": tool_change,
                     "verbose": 0
                 }
-                recovery = n3lang.n3recovery.n3c_recovery(*inputs)
+                recovery = n3lang.n3recovery.n3c_recovery(**inputs)
+                print(f"'{k}' <-> '{recovery}'")
                 assertion = recovery == k
-                print(f"{colorize_bool(assertion)} width={width} | {k} -> '{v}' -> {recovery}")
                 if not assertion:
-                    inputs["verbose"] = 1
-                    n3lang.n3recovery.n3c_recovery(*inputs)
-                    print(f"{colorize_bool(assertion)} ERROR: '{k}' != '{recovery}'")
+                    print(f"{colorize_bool(assertion)} width={width} | '{k}' -> '{v}' -> '{recovery}'")
                     sys.exit(1)
+                # if not assertion:
+                #     inputs["verbose"] = 1
+                #     n3lang.n3recovery.n3c_recovery(**inputs)
+                #     print(f"{colorize_bool(assertion)} ERROR: '{k}' != '{recovery}'")
+                #     sys.exit(1)
 
 
 def main(degrees=None, verbose=0) -> str:

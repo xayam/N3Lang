@@ -69,7 +69,7 @@ w - width, длина входной последовательности
 
 
 def get_n3sort_values(data: str) -> list:
-    pattern = r"f={\d+}\s+c=(\d+)\s+o=(\d+)\s+p=(\d+)\s+e=(\d+)"
+    pattern = r"f=(\d+)\s+c=(\d+)\s+o=(\d+)\s+p=(\d+)\s+e=(\d+)"
     result = re.findall(pattern, data)
     if result:
         return [int(i) for i in result[0]]
