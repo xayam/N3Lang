@@ -69,9 +69,9 @@ def n3c_validation():
                     "width": width,
                     "count": count,
                     "ones": ones,
-                    "pos": pos,
+                    "position": pos,
                     "tool": tool,
-                    "change_tool": change_tool,
+                    "tool_change": change_tool,
                     "verbose": 0
                 }
                 print(f"{v} = '{k}'")
@@ -157,16 +157,16 @@ if __name__ == "__main__":
 # )
 
 # for step in [result0, result1]:
-#     data, count, ones, zero, pos, tool, change_tool = result0
+#     data, count, ones, zero, position, tool, tool_change = result0
 #
-#     pars[s] = f"c={count} o={ones} p={pos} t={tool} e={change_tool}"
+#     pars[s] = f"c={count} o={ones} p={position} t={tool} e={tool_change}"
 #     origin_pars = pars.copy()
 #     pars = {k: v for k, v in sorted(pars.items(), key=lambda item: item[1])}
 #
 #     if count > max_count:
 #         max_count = count
-#     if change_tool > max_change_tool:
-#         max_change_tool = change_tool
+#     if tool_change > max_change_tool:
+#         max_change_tool = tool_change
 #     bits = 1
 #     bits += math.ceil(math.log2(max_count + 1))
 #     bits += math.ceil(math.log2(max_change_tool + 1))
@@ -176,7 +176,7 @@ if __name__ == "__main__":
 #     assertion = data == [1] * ones + [0] * zero
 #     assert assertion
 #     # print("Decompressing...")
-#     # recovery = n3c_recovery(width, count, ones, pos, tool, change_tool, 1)
+#     # recovery = n3c_recovery(width, count, ones, position, tool, tool_change, 1)
 #     recovery = arr
 #     assertion = recovery == arr
 #     len_pars = len(origin_pars)
