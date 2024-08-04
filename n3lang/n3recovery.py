@@ -11,13 +11,17 @@ def n3c_recovery(width: int,
                  tool_change: int,
                  verbose: int=0) -> str:
     best = [1] * ones + [0] * (width - ones)
-    data = best[:]
     if false_operation:
         return list_to_str(best)
     count += 1
     limit = 2 ** math.ceil(get_sum_width(width - 1))
-    input_change_tool = tool_change
+    origin_count = count
+    origin_position = position
     for tool in [0, 1]:
+        count = origin_count
+        last_use_position = origin_position
+        position = last_use_position
+        data = best[:]
         while (count + tool_change > 0) and (tool_change > - limit):
             if verbose > 0:
                 print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
@@ -34,6 +38,11 @@ def n3c_recovery(width: int,
                     tool = 1
                     tool_change -= 1
                     position = input_change_tool - tool_change + 1
+                    if verbose > 0:
+                        print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
+                              f"e={tool_change}, current={data}")
+                    if tool_change < 0:
+                        break
                     continue
                 else:
                     position = exist_pos
@@ -56,6 +65,9 @@ def n3c_recovery(width: int,
                     tool = 0
                     tool_change -= 1
                     position = input_change_tool - tool_change + 1
+                    if verbose > 0:
+                        print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
+                              f"e={tool_change}, current={data}")
                     continue
                 else:
                     position = exist_pos
@@ -68,7 +80,6 @@ def n3c_recovery(width: int,
                 position += 2
         if (count == 0) and (tool_change == 0):
             return list_to_str(data)
-        data = best[:]
     # TODO
     return ""
 

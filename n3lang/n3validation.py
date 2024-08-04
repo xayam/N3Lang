@@ -105,12 +105,13 @@ def n3c_validation():
                         "ones": ones,
                         "position": position,
                         "tool_change": tool_change,
-                        "verbose": 0
+                        "verbose": 1
                     }
                     recovery = n3lang.n3recovery.n3c_recovery(**inputs)
                     assertion = recovery == v
                     print(f"{colorize_bool(assertion)} width={width} " + \
                           f"conflict={conflict} '{v}' -> '{variants[0]}' -> '{recovery}'  +++")
+                    sys.exit()
 
 
 def main(degrees=None, verbose=0) -> str:
