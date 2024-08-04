@@ -1,4 +1,5 @@
 import math
+import sys
 
 import n3lang.n3recovery
 from n3sort import n3c_sort
@@ -9,7 +10,7 @@ def n3c_validation():
     verbose = 0
     # print(get_annotation())
     print(f"Decompressing...")
-    for width in [2 ** x for x in range(1, 7)]:
+    for width in [4, 8]:  # [8, 32, 512, 65536]
         no_conflict = True
         # max_count = 0
         # max_change_tool = 0
@@ -45,16 +46,21 @@ def n3c_validation():
             for j in r0[i][1:]:
                 for k in r1:
                     if j in r1[k]:
+                        # if len(r1[k]) > 1:
+                        #     print(r1[k])
                         if j != r0[i][0]:
                             result[j] = k
                             conflict.append(f"{j}_{k}")
-        print(result)
+        len_result = len(result)
+        len_set_result = len(set(result.values()))
+        assertion = len_result == len_set_result
         print(
-            f"width={width}",
+            f"{colorize_bool(assertion)}, width={width}",
             len(conflict), len(set(conflict)),
-            len(result), len(set(result.values()))
+            len_result, len_set_result
         )
-        # continue
+        # if assertion:
+        #     continue
         for k, v in result.items():
             values = get_n3sort_values(v)
             if values:
@@ -66,18 +72,17 @@ def n3c_validation():
                     "pos": pos,
                     "tool": tool,
                     "change_tool": change_tool,
-                    "verbose": 1
+                    "verbose": 0
                 }
                 print(f"{v} = '{k}'")
                 recovery = n3lang.n3recovery.n3c_recovery(**params)
                 assertion = recovery == k
                 print(f"{colorize_bool(assertion)} width={width} | {k} -> '{v}' -> {recovery}")
-                # if not assertion:
-                #     params["verbose"] = 1
-                #     n3lang.n3recovery.n3c_recovery(**params)
-                assert assertion
-        if not no_conflict:
-            pass
+                if not assertion:
+                    params["verbose"] = 1
+                    n3lang.n3recovery.n3c_recovery(**params)
+                    print(f"{colorize_bool(assertion)} ERROR: '{k}' != '{recovery}'")
+                    sys.exit(1)
 
 
 def main(data=None, verbose=0) -> str:
