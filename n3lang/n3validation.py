@@ -90,15 +90,21 @@ def n3c_validation():
                         if i == v:
                             if j != k:
                                 variants.append(j)
-                print(f"{colorize_bool(assertion)} width={width} " + \
-                      f"conflict={conflict} '{v}' -> '{k}' -> '{recovery}' : variants={variants}")
-                # if not recovery:
-                #     pprint.pprint(r1)
-                #     sys.exit(1)
-                # inputs["verbose"] = 1
-                #     n3lang.n3recovery.n3c_recovery(**inputs)
-                #     print(f"{colorize_bool(assertion)} ERROR: '{k}' != '{recovery}'")
-                #     sys.exit(1)
+                if not assertion:
+                    false_operation, count, ones, position, tool_change = get_n3sort_values(variants[0])
+                    inputs = {
+                        "width": width,
+                        "false_operation": false_operation,
+                        "count": count,
+                        "ones": ones,
+                        "position": position,
+                        "tool_change": tool_change,
+                        "verbose": 0
+                    }
+                    recovery = n3lang.n3recovery.n3c_recovery(**inputs)
+                    assertion = recovery == v
+                    print(f"{colorize_bool(assertion)} width={width} " + \
+                          f"conflict={conflict} '{v}' -> '{k}' -> '{recovery}'")
 
 
 def main(degrees=None, verbose=0) -> str:
