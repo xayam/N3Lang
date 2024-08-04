@@ -13,7 +13,7 @@ def n3c_validation():
     print(f"Decompressing...")
     width = 0
     # while True:
-    for width in range(1, 5):
+    for width in range(3, 4):
         # [8, 32, 512, 65536]
         # width += 1
         results0 = dict()
@@ -85,12 +85,13 @@ def n3c_validation():
                 recovery = n3lang.n3recovery.n3c_recovery(**inputs)
                 assertion = recovery == v
                 variants = []
-                for j in r1:
-                    for i in r1[j]:
-                        if i == v:
-                            if j != k:
-                                variants.append(j)
+                # if r1.__contains__(k):
+                #     variants.append(r1[k][0])
+                print(f"{colorize_bool(assertion)} width={width} " + \
+                      f"conflict={conflict} '{v}' -> '{k}' -> '{recovery}'  variants={variants}")
                 if not assertion:
+                    pprint.pprint(r1)
+                if False:
                     false_operation, count, ones, position, tool_change = get_n3sort_values(variants[0])
                     inputs = {
                         "width": width,
@@ -104,7 +105,7 @@ def n3c_validation():
                     recovery = n3lang.n3recovery.n3c_recovery(**inputs)
                     assertion = recovery == v
                     print(f"{colorize_bool(assertion)} width={width} " + \
-                          f"conflict={conflict} '{v}' -> '{k}' -> '{recovery}'")
+                          f"conflict={conflict} '{v}' -> '{variants[0]}' -> '{recovery}'  +++")
 
 
 def main(degrees=None, verbose=0) -> str:
