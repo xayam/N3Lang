@@ -90,7 +90,10 @@ def n3c_validation():
                 print(f"{colorize_bool(assertion)} width={width} " + \
                       f"conflict={conflict} '{v}' -> '{k}' -> '{recovery}'  variants={variants}")
                 if not assertion:
+                    pprint.pprint(r0)
                     pprint.pprint(r1)
+                    # inputs["verbose"] = 1
+                    # recovery = n3lang.n3recovery.n3c_recovery(**inputs)
                 if False:
                     false_operation, count, ones, position, tool_change = get_n3sort_values(variants[0])
                     inputs = {

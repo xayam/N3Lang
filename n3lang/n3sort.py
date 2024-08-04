@@ -27,6 +27,7 @@ def n3c_sort(input_data: List[int], verbose=0):
         count = 0
         tool_change = 0
         position = width - 1
+        last_use_position = position
         while best != data:
             if verbose > 0:
                 print(f"c={count} o={ones} p={position} t={tool} " +
@@ -49,6 +50,7 @@ def n3c_sort(input_data: List[int], verbose=0):
                 message = f"{colorize_swap(data, position, position - 1)} -> "
                 data[position], data[position - 1] = data[position - 1], data[position]
                 message += f"{colorize_swap(data, position, position - 1)}"
+                last_use_position = position - 1
                 if verbose > 0:
                     print(message)
                 count += 1
@@ -72,6 +74,7 @@ def n3c_sort(input_data: List[int], verbose=0):
                     message = f"{colorize_swap(data, position, position - 2)} -> "
                     data[position], data[position - 2] = data[position - 2], data[position]
                     message += f"{colorize_swap(data, position, position - 2)}"
+                    last_use_position = position - 2
                     if verbose > 0:
                         print(message)
                     count += 1
@@ -82,7 +85,7 @@ def n3c_sort(input_data: List[int], verbose=0):
             "count": count - 1,
             "ones": ones,
             "zeros": width - ones,
-            "position": position,
+            "position": last_use_position,
             "tool_change": tool_change,
         }
         result.append(outputs)
