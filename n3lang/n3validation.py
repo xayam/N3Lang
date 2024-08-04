@@ -62,11 +62,11 @@ def main(degrees=None, verbose=0) -> str:
 
 if __name__ == "__main__":
     # ? P(W)
-    # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
-    # L = math.ceil(P(W)) + 1
+    # P(W) = lim sum log2[x + 1], x = 0 to log2[y] as y->W
+    # W = P(W)
 
     # main(degrees=[3, 9, 23, 55], verbose=1)
 
-    # main(verbose=1)
+    main(verbose=1)
 
-    n3c_validation()
+    # n3c_validation()
