@@ -79,14 +79,10 @@ def n3c_validation():
 
 
 if __name__ == "__main__":
-    # ? P
-    # C = P(W)
-    # A = LIM P(W) * MAX([LOG2(P[0], LOG2(P[1], ..., P[W-1])]) as W->+INFINITY
-    # A = LIM LOG2[W+1] as W->+INFINITY
-    # A = W + 1
-    # W=1, A=1+log2[3]: plot[log2[x+1], x=[1, 2**1]]
-    # W=10, A=10 + _: plot[log2[x+1], x=[1, 2**10]]
-    # W=20, A=20 + _: plot[log2[x+1], x=[1, 2**20]]
+    # ? P(W)
+    # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
+    # W = P(W)
+    # C = W
     n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
