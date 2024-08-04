@@ -52,14 +52,12 @@ def n3c_validation():
                             conflict.append(f"{j}_{k}")
         len_result = len(result)
         len_set_result = len(set(result.values()))
-        assertion = len_result == len_set_result
+        assert len(conflict) == len(set(conflict))
+        assert 2 ** width == len_result
         print(
-            f"{colorize_bool(assertion)}, width={width}",
-            len(conflict), len(set(conflict)),
-            len_result, len_set_result
+            f"{colorize_bool(True)}, width={width}, ",
+            f"len_set_result={len_set_result}"
         )
-        # if assertion:
-        # continue
         for k, v in result.items():
             values = get_n3sort_values(v)
             if values:
