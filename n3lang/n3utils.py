@@ -77,6 +77,10 @@ def get_n3sort_values(data: str) -> list:
         return []
 
 
+def list_bool_to_str(data: list) -> str:
+    return "".join(map(str, map(int, data)))
+
+
 def get_sum_width(width: int) -> float:
     summa = 0
     for x in range(1, math.ceil(math.log2(width + 1))):
