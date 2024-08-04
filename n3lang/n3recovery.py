@@ -1,6 +1,6 @@
 import math
 
-from n3utils import colorize_swap, get_sum_width, list_bool_to_str
+from n3utils import colorize_swap, get_sum_width, list_to_str
 
 
 def n3c_recovery(width,
@@ -13,7 +13,7 @@ def n3c_recovery(width,
     best = [1] * ones + [0] * (width - ones)
     data = best[:]
     if false_operation:
-        return list_bool_to_str(best)
+        return list_to_str(best)
     count += 1
     limit = 2 ** math.ceil(get_sum_width(width - 1))
     input_change_tool = tool_change
@@ -67,7 +67,7 @@ def n3c_recovery(width,
                 count -= 1
                 position += 2
         if (count == 0) and (tool_change == 0):
-            return list_bool_to_str(data)
+            return list_to_str(data)
         data = best[:]
     return ""
 

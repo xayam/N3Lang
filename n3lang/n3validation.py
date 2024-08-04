@@ -25,10 +25,11 @@ def n3c_validation():
             if verbose > 0:
                 print("Compressing...")
             result0, result1 = n3c_sort(data, verbose)
-            results0[s] = f"c={result0[1]} o={result0[2]} " + \
-                          f"p={result0[4]} t={result0[5]} e={result0[6]}"
-            results1[s] = f"c={result1[1]} o={result1[2]} " + \
-                          f"p={result1[4]} t={result1[5]} e={result1[6]}"
+            assert list_bool_to_str(arr) in [result0[0], result1[0]]
+            results0[s] = f"c={result0[2]} o={result0[3]} " + \
+                          f"p={result0[5]} e={result0[6]}"
+            results1[s] = f"c={result1[2]} o={result1[3]} " + \
+                          f"p={result1[5]} e={result1[6]}"
         r0 = dict()
         for k, v in results0.items():
             if not r0.__contains__(v):
@@ -60,7 +61,7 @@ def n3c_validation():
             len_result, len_set_result
         )
         # if assertion:
-        #     continue
+        continue
         for k, v in result.items():
             values = get_n3sort_values(v)
             if values:

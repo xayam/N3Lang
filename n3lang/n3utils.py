@@ -69,7 +69,7 @@ w - width, длина входной последовательности
 
 
 def get_n3sort_values(data: str) -> list:
-    pattern = r"c=(\d+)\s+o=(\d+)\s+p=(\d+)\s+t=(\d+)\s+e=(\d+)"
+    pattern = r"c=(\d+)\s+o=(\d+)\s+p=(\d+)\s+e=(\d+)"
     result = re.findall(pattern, data)
     if result:
         return [int(i) for i in result[0]]
@@ -77,8 +77,8 @@ def get_n3sort_values(data: str) -> list:
         return []
 
 
-def list_bool_to_str(data: list) -> str:
-    return "".join(map(str, map(int, data)))
+def list_to_str(data: list) -> str:
+    return "".join(map(str, data))
 
 
 def get_sum_width(width: int) -> float:

@@ -3,7 +3,7 @@ from typing import List
 from n3utils import colorize_swap
 
 
-def n3c_sort(input_data: List[bool], verbose=0):
+def n3c_sort(input_data: List[int], verbose=0):
     data = input_data[:]
     width = len(data)
     ones = 0
