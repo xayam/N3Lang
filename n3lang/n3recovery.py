@@ -39,13 +39,15 @@ def n3c_recovery(width: int,
                     break
             if not exist_exchange:
                 tool = 1
-                tool_change -= 1
-                position = origin_tool_change - tool_change + 1
+                if tool_change == 0:
+                    tool = 0
+                    position = origin_tool_change - 1
+                else:
+                    tool_change -= 1
+                    position = origin_tool_change - tool_change + 1
                 if verbose > 0:
                     print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
                           f"e={tool_change}, current={data}")
-                if tool_change < 0:
-                    break
                 continue
             else:
                 position = exist_pos
