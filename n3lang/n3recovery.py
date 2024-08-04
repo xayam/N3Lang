@@ -62,10 +62,13 @@ def n3c_recovery(width: int,
             exist_exchange = False
             exist_pos = 0
             for i in range(position - 2, width - 1):
-                if (data[i] == 1) and (data[i + 2] == 0):
-                    exist_exchange = True
-                    exist_pos = i
-                    break
+                try:
+                    if (data[i] == 1) and (data[i + 2] == 0):
+                        exist_exchange = True
+                        exist_pos = i
+                        break
+                except IndexError:
+                    return list_to_str(data)
             if not exist_exchange:
                 tool = 0
                 tool_change -= 1
