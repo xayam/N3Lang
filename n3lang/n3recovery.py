@@ -73,19 +73,19 @@ def n3c_recovery(width,
 
 # if position == width - 1:
 #     position = 0
-# elif data[position] == 1:
+# elif degrees[position] == 1:
 #     if position == width - 1:
 #         tool = 0
 #         tool_change -= 1
-#     elif data[position + 2] == 1:
-#         if data[position + 1] == 1:
+#     elif degrees[position + 2] == 1:
+#         if degrees[position + 1] == 1:
 #             position += 2
 #         else:
 #             pass
 #     else:
-#         message = f"{colorize_swap(data, position, position + 2)} -> "
-#         data[position], data[position + 2] = data[position + 2], data[position]
-#         message += f"{colorize_swap(data, position, position + 2)}"
+#         message = f"{colorize_swap(degrees, position, position + 2)} -> "
+#         degrees[position], degrees[position + 2] = degrees[position + 2], degrees[position]
+#         message += f"{colorize_swap(degrees, position, position + 2)}"
 #         if verbose > 0:
 #             print(message)
 #         count -= 1

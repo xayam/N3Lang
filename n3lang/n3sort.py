@@ -13,7 +13,7 @@ def n3c_sort(input_data: List[int], verbose=0):
     result = []
     best = [1] * ones + [0] * (width - ones)
     outputs = {
-        "data": input_data,
+        "degrees": input_data,
         "false_operation": 1,
         "count": 0,
         "ones": ones,
@@ -78,7 +78,7 @@ def n3c_sort(input_data: List[int], verbose=0):
                     count += 1
                 position -= 2
         outputs = {
-            "data": data,
+            "degrees": data,
             "false_operation": 0,
             "count": count - 1,
             "ones": ones,

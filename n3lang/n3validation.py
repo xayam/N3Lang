@@ -25,7 +25,7 @@ def n3c_validation():
             if verbose > 0:
                 print("Compressing...")
             result0, result1 = n3c_sort(data, verbose)
-            assert list_bool_to_str(arr) in [result0[0], result1[0]]
+            assert s in [result0[0], result1[0]]
             results0[s] = f"c={result0[2]} o={result0[3]} " + \
                           f"p={result0[5]} e={result0[6]}"
             results1[s] = f"c={result1[2]} o={result1[3]} " + \
@@ -86,11 +86,11 @@ def n3c_validation():
                     sys.exit(1)
 
 
-def main(data=None, verbose=0) -> str:
-    if data is None:
+def main(degrees=None, verbose=0) -> str:
+    if degrees is None:
         windows = [2 ** i - 1 for i in [1, 2, 3, 5, 9, 16]]
     else:
-        windows = [2 ** i for i in data]
+        windows = [2 ** i for i in degrees]
     result = ""
     index = 0
     for width in windows:
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
     # L = math.ceil(P(W)) + 1
 
-    # main(data=[3, 9, 23, 55], verbose=1)
+    # main(degrees=[3, 9, 23, 55], verbose=1)
 
     # main(verbose=1)
 
@@ -158,7 +158,7 @@ if __name__ == "__main__":
 # )
 
 # for step in [result0, result1]:
-#     data, count, ones, zero, position, tool, tool_change = result0
+#     degrees, count, ones, zero, position, tool, tool_change = result0
 #
 #     pars[s] = f"c={count} o={ones} p={position} t={tool} e={tool_change}"
 #     origin_pars = pars.copy()
@@ -174,7 +174,7 @@ if __name__ == "__main__":
 #     bits += 2 * math.ceil(math.log2(width))
 #     if bits > max_bits:
 #         max_bits = bits
-#     assertion = data == [1] * ones + [0] * zero
+#     assertion = degrees == [1] * ones + [0] * zero
 #     assert assertion
 #     # print("Decompressing...")
 #     # recovery = n3c_recovery(width, count, ones, position, tool, tool_change, 1)
@@ -194,7 +194,7 @@ if __name__ == "__main__":
 #             f"max_bits={max_bits}, max_count={max_count}, " + \
 #             f"max_change_tool={max_change_tool}")
 #     if not assertion:
-#         print(f"{arr} -> {data} -> {recovery}")
+#         print(f"{arr} -> {degrees} -> {recovery}")
 #         print(f"{colorize(' ERROR ')} input != output")
 #         sys.exit(1)
 #     if not no_conflict:
