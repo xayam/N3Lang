@@ -3,11 +3,9 @@ from n3utils import colorize_swap
 
 def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0) -> str:
     data = [1] * ones + [0] * (width - ones)
-    input_count = count
-    input_change_tool = change_tool
     while count + change_tool > 0:
         if verbose > 0:
-            print(f"pos={pos}, count={count}, tool={tool}, " + \
+            print(f"pos={pos}, count={count}, tool={tool}, " +
                   f"change_tool={change_tool}, data={data}")
         if tool == 0:
             exist_exchange = False

@@ -49,6 +49,7 @@ def sign_of_subtraction_of_two_one_bits(_a, _b):
     _, _, less = fredkin_gate(control, _a, ~_b & 1)
     return 1 - less
 
+
 def get_annotation() -> str:
     return """
 w - width, длина входной последовательности
@@ -64,6 +65,7 @@ w - width, длина входной последовательности
                                     на котором закончилось изменение последовательности.
                       e - exchange, количество смены tool.
 """
+
 
 def get_n3sort_values(data: str) -> list:
     pattern = r"c=(\d+)\s+o=(\d+)\s+p=(\d+)\s+t=(\d+)\s+e=(\d+)"

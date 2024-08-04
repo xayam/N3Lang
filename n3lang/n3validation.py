@@ -1,6 +1,3 @@
-import math
-import sys
-
 import n3lang.n3recovery
 from n3sort import n3c_sort
 from n3utils import colorize_bool, colorize, get_n3sort_values

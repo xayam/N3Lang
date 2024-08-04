@@ -14,7 +14,7 @@ def n3c_sort(input_data: list, verbose=0) -> [list, int]:
         count = 0
         change_tool = 0
         pos = width - 1
-        while best != data:
+        while best != data: 
             if verbose > 0:
                 print(f"pos={pos}, count={count}, tool={tool}, " +
                       f"change_tool={change_tool}, data={data}")
