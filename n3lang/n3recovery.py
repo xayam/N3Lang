@@ -16,11 +16,10 @@ def n3c_recovery(width: int,
         return list_to_str(best)
     count += 1
     limit = 2 ** math.ceil(get_sum_width(width - 1))
-    origin_count = count
+
     origin_position = position
     origin_tool_change = tool_change
 
-    count = origin_count
     last_use_position = origin_position
     tool_change = origin_tool_change
     position = last_use_position
@@ -41,10 +40,10 @@ def n3c_recovery(width: int,
                 tool = 1
                 if tool_change == 0:
                     tool = 0
-                    position = origin_tool_change - 1
+                    position -= 1
                 else:
                     tool_change -= 1
-                    position = origin_tool_change - tool_change + 1
+                    position += 1  # origin_tool_change - tool_change + 1
                 if verbose > 0:
                     print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
                           f"e={tool_change}, current={data}")
@@ -61,18 +60,15 @@ def n3c_recovery(width: int,
         elif tool == 1:
             exist_exchange = False
             exist_pos = 0
-            for i in range(position - 2, width - 1):
-                try:
-                    if (data[i] == 1) and (data[i + 2] == 0):
-                        exist_exchange = True
-                        exist_pos = i
-                        break
-                except IndexError:
-                    return list_to_str(data)
+            for i in range(position, width - 1):
+                if (data[i] == 1) and (data[i + 2] == 0):
+                    exist_exchange = True
+                    exist_pos = i
+                    break
             if not exist_exchange:
                 tool = 0
                 tool_change -= 1
-                position = origin_tool_change - tool_change + 1
+                position += 1  # origin_tool_change - tool_change + 1
                 if verbose > 0:
                     print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
                           f"e={tool_change}, current={data}")

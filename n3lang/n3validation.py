@@ -13,7 +13,7 @@ def n3c_validation():
     print(f"Decompressing...")
     width = 0
     # while True:
-    for width in range(1, 4):
+    for width in range(1, 7):
         # [8, 32, 512, 65536]
         # width += 1
         results = dict()
@@ -24,51 +24,10 @@ def n3c_validation():
             if verbose > 0:
                 print("Compressing...")
             res = n3c_sort(data, verbose)
-            # print(res)
             results[s] = f"f={res['false_operation']} c={res['count']} o={res['ones']} " + \
                          f"p={res['position']} t={res['tool']} e={res['tool_change']}"
-            # print(results)
-        # r0 = dict()
-        # for k, v in results0.items():
-        #     if not r0.__contains__(v):
-        #         r0[v] = []
-        #     r0[v].append(k)
-        # r1 = dict()
-        # for k, v in results1.items():
-        #     if not r1.__contains__(v):
-        #         r1[v] = []
-        #     r1[v].append(k)
-        # result = dict()
-        # index = -1
-        # conflict = 0
-        # pprint.pprint(r0)
-        # pprint.pprint(r1)
-        # result = r0.copy()
-        # for i in r0:
-        #     index += 1
-        #     if len(r0[i]) == 1:
-        #         result[i] = r0[i][0]
-        #     else:
-        #         conflict += 1
-                # reverse = index
-                # for j in r1:
-                #     reverse -= 1
-                #     # if (len(r1[j]) == 1) and
-                #     if reverse < 0:
-                #         result[i] = r1[j][0]
-        # pprint.pprint(result)
-        # sys.exit()
-        # len_result = len(result)
-        # len_set_result = len(set(result.values()))
-        # print(
-        #     f"width={str(width).rjust(2, ' ')}",
-        #     # f"len_result={str(len_result).rjust(6, ' ')}, ",
-        #     # f"len_set_result={str(len_set_result).rjust(5, ' ')}"
-        # )
         for k, v in results.items():
-            # print(k, v)
             values = get_n3sort_values(v)
-            # print(values)
             if values:
                 false_operation, count, ones, position, tool, tool_change = values
                 inputs = {
@@ -86,30 +45,6 @@ def n3c_validation():
                 print(f"{colorize_bool(assertion)} width={width} " + \
                       f"'{k}' -> '{v}' -> '{recovery}'")
                 assert assertion
-                # if not assertion:
-                #     # pass
-                #     # pprint.pprint(r0)
-                #     # pprint.pprint(r1)
-                #     # inputs["verbose"] = 1
-                #     # recovery = n3lang.n3recovery.n3c_recovery(**inputs)
-                #     false_operation, count, ones, position, tool, tool_change = \
-                #         get_n3sort_values(variants[0])
-                #     inputs = {
-                #         "width": width,
-                #         "false_operation": false_operation,
-                #         "count": count,
-                #         "ones": ones,
-                #         "position": position,
-                #         "tool": tool,
-                #         "tool_change": tool_change,
-                #         "verbose": 1
-                #     }
-                #     recovery = n3lang.n3recovery.n3c_recovery(**inputs)
-                #     assertion = recovery == v
-                #     print(f"{colorize_bool(assertion)} width={width} " + \
-                #           f"conflict={conflict} '{v}' -> '{variants[0]}' -> '{recovery}'  +++")
-                #     if not assertion:
-                #         sys.exit()
 
 
 def main(degrees=None, verbose=0) -> str:
