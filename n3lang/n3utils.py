@@ -1,3 +1,4 @@
+import math
 import re
 import sys
 
@@ -74,3 +75,10 @@ def get_n3sort_values(data: str) -> list:
         return [int(i) for i in result[0]]
     else:
         return []
+
+
+def get_sum_width(width: int) -> float:
+    summa = 0
+    for x in range(1, math.ceil(math.log2(width + 1))):
+        summa += math.log2(x + 1)
+    return summa

@@ -1,9 +1,8 @@
 import math
-import sys
 
 import n3lang.n3recovery
 from n3sort import n3c_sort
-from n3utils import colorize_bool, get_n3sort_values
+from n3utils import colorize_bool, get_n3sort_values, get_sum_width
 
 
 def n3c_validation():
@@ -81,13 +80,6 @@ def n3c_validation():
             pass
 
 
-def get_sum(width: int) -> float:
-    summa = 0
-    for x in range(1, math.ceil(math.log2(width + 1))):
-        summa += math.log2(x + 1)
-    return summa
-
-
 def main(data=None, verbose=0) -> str:
     if data is None:
         windows = [2 ** i - 1 for i in [1, 2, 3, 5, 9, 16]]
@@ -97,7 +89,7 @@ def main(data=None, verbose=0) -> str:
     index = 0
     for width in windows:
         index += 1
-        summa = get_sum(width)
+        summa = get_sum_width(width)
         summa = math.ceil(summa)
         max_count = 2 ** summa
         max_ones = width
@@ -123,9 +115,9 @@ if __name__ == "__main__":
 
     # main(data=[3, 9, 23, 55], verbose=1)
 
-    main(verbose=1)
+    # main(verbose=1)
 
-    # n3c_validation()
+    n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
 # print(f"!!!!!!{len(results0)}, {len(set(results0.values()))}")
