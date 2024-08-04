@@ -86,7 +86,7 @@ def main():
     # C = P(W) + 1
     # P(32) = 10 = math.ceil( sum log2[x + 1], x = 1 to log2[32] )
     # and + 1 bit for choice start tool: 10 + 1 = 11 bits
-    windows = [1, 2, 4, 8, 16, 32]
+    windows = [2 ** i for i in [3, 9]]
     for width in windows:
         summa = 0
         for x in range(1, math.ceil(math.log2(width + 1))):
@@ -94,19 +94,19 @@ def main():
         max_count = math.ceil(math.log2(summa + 1))
         max_ones = math.ceil(math.log2(width + 1))
         max_bits = max_count + max_ones + 1
-        percent =
+        percent = max_bits / width
         print(
-            f"width={str(width).rjust(2, ' ')}, " +
-            f"summa={str(summa)[:3].rjust(3, ' ')}, " +
-            f"max_count={str(max_count).rjust(1, ' ')}, " +
-            f"max_ones={str(max_ones).rjust(1, ' ')}, " +
-            f"max_bits={str(max_bits).rjust(2, ' ')}" +
-            f"percent={str(percent)[:10].rjust(10, ' ')}"
+            f"width={str(width).rjust(4, ' ')}, " +
+            f"summa={str(summa)[:3].rjust(5, ' ')}, " +
+            f"max_count={str(max_count).rjust(2, ' ')}, " +
+            f"max_ones={str(max_ones).rjust(2, ' ')}, " +
+            f"max_bits={str(max_bits).rjust(2, ' ')}, " +
+            f"percent={str(100 * percent)[:6].rjust(7, ' ')}%"
         )
 
 if __name__ == "__main__":
     main()
-    n3c_validation()
+    # n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
 # print(f"!!!!!!{len(results0)}, {len(set(results0.values()))}")
