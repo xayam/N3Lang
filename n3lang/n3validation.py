@@ -112,12 +112,15 @@ def n3c_validation():
                     "pos": pos,
                     "tool": tool,
                     "change_tool": change_tool,
-                    "verbose": verbose
+                    "verbose": 0
                 }
                 recovery = n3lang.n3recovery.n3c_recovery(**params)
                 # print(width, recovery)
                 assertion = recovery == k
                 print(f"{colorize_bool(assertion)} width={width} | {k} -> '{v}' -> {recovery}")
+                if not assertion:
+                    params["verbose"] = 1
+                    n3lang.n3recovery.n3c_recovery(**params)
                 assert assertion
                 # break
         if not no_conflict:

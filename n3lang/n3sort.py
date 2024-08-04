@@ -19,7 +19,6 @@ def n3c_sort(input_data: list, verbose=0) -> [list, int]:
                 print(f"pos={pos}, count={count}, tool={tool}, " +
                       f"change_tool={change_tool}, data={data}")
             if tool == 0:
-                #  + list(range(width - 1, -1, -1))
                 exist_exchange = False
                 exist_pos = 0
                 for i in range(pos, 0, -1):
@@ -42,7 +41,6 @@ def n3c_sort(input_data: list, verbose=0) -> [list, int]:
                 count += 1
                 pos -= 1
             elif tool == 1:
-                #  + list(range(width - 1, 1, -1))
                 exist_exchange = False
                 exist_pos = 0
                 for i in range(pos, 1, -1):
