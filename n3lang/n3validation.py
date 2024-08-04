@@ -42,19 +42,17 @@ def n3c_validation():
             result[r0[i][0]] = i
             for j in r0[i][1:]:
                 for k in r1:
-                    if len(r1[k]) > 1:
-                        print(r1[k])
                     if j in r1[k]:
-                        result[j] = k
-                        conflict.append(f"{j}_{k}")
-                        break
+                        if j != r0[i][0]:
+                            result[j] = k
+                            conflict.append(f"{j}_{k}")
         print(result)
         print(
             f"width={width}",
             len(conflict), len(set(conflict)),
             len(result), len(set(result.values()))
         )
-        continue
+        # continue
         for k, v in result.items():
             values = get_n3sort_values(v)
             if values:
@@ -66,7 +64,7 @@ def n3c_validation():
                     "pos": pos,
                     "tool": tool,
                     "change_tool": change_tool,
-                    "verbose": 0
+                    "verbose": 1
                 }
                 print(f"{v} = '{k}'")
                 recovery = n3lang.n3recovery.n3c_recovery(**params)
