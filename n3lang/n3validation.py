@@ -21,17 +21,11 @@ def n3c_validation():
             if verbose > 0:
                 print(f"Compressing...\n")
             values = n3c_sort(data, verbose)
-            inputs = {
-                "width": width,
-                "false_operation": values["false_operation"],
-                "count": values["count"],
-                "ones": values["ones"],
-                "position": values["position"],
-                "tool": values["tool"],
-                "tool_change": values["tool_change"],
-                "verbose": 1
-            }
-            recovery = n3lang.n3recovery.n3c_recovery(**inputs)
+            values["width"] = width
+            values["verbose"] = 1
+            values.__delitem__("data")
+            values.__delitem__("zeros")
+            recovery = n3lang.n3recovery.n3c_recovery(**values)
             assertion = recovery == s
             print(f"{colorize_bool(assertion)} width={width} " + \
                   f"'{s}' -> '{recovery}'")
