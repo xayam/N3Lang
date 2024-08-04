@@ -26,9 +26,9 @@ def n3c_validation():
                 print("Compressing...")
             result0, result1 = n3c_sort(data, verbose)
             results0[s] = f"f={result0['false_operation']} c={result0['count']} o={result0['ones']} " + \
-                          f"p={result0['position']} e={result0['tool_change']}"
+                          f"p={result0['position']} t={result0['tool']} e={result0['tool_change']}"
             results1[s] = f"f={result0['false_operation']} c={result1['count']} o={result1['ones']} " + \
-                          f"p={result1['position']} e={result1['tool_change']}"
+                          f"p={result1['position']} t={result1['tool']} e={result1['tool_change']}"
         # print(results0)
         # print(results1)
         r0 = dict()
@@ -72,13 +72,14 @@ def n3c_validation():
             keys = get_n3sort_values(k)
             if keys:
                 # print(keys)
-                false_operation, count, ones, position, tool_change = keys
+                false_operation, count, ones, position, tool, tool_change = keys
                 inputs = {
                     "width": width,
                     "false_operation": false_operation,
                     "count": count,
                     "ones": ones,
                     "position": position,
+                    "tool": tool,
                     "tool_change": tool_change,
                     "verbose": 0
                 }
@@ -97,13 +98,15 @@ def n3c_validation():
                     # pprint.pprint(r1)
                     # inputs["verbose"] = 1
                     # recovery = n3lang.n3recovery.n3c_recovery(**inputs)
-                    false_operation, count, ones, position, tool_change = get_n3sort_values(variants[0])
+                    false_operation, count, ones, position, tool, tool_change = \
+                        get_n3sort_values(variants[0])
                     inputs = {
                         "width": width,
                         "false_operation": false_operation,
                         "count": count,
                         "ones": ones,
                         "position": position,
+                        "tool": tool,
                         "tool_change": tool_change,
                         "verbose": 1
                     }
@@ -111,7 +114,8 @@ def n3c_validation():
                     assertion = recovery == v
                     print(f"{colorize_bool(assertion)} width={width} " + \
                           f"conflict={conflict} '{v}' -> '{variants[0]}' -> '{recovery}'  +++")
-                    sys.exit()
+                    if not assertion:
+                        sys.exit()
 
 
 def main(degrees=None, verbose=0) -> str:

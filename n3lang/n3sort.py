@@ -89,6 +89,7 @@ def n3c_sort(input_data: List[int], verbose=0):
             "ones": ones,
             "zeros": width - ones,
             "position": last_use_position,
+            "tool": tool,
             "tool_change": tool_change,
         }
         result.append(outputs)

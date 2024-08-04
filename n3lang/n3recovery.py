@@ -8,6 +8,7 @@ def n3c_recovery(width: int,
                  count: int,
                  ones: int,
                  position: int,
+                 tool: int,
                  tool_change: int,
                  verbose: int=0) -> str:
     best = [1] * ones + [0] * (width - ones)
@@ -18,75 +19,69 @@ def n3c_recovery(width: int,
     origin_count = count
     origin_position = position
     origin_tool_change = tool_change
-    for tool in [0, 1]:
-        count = origin_count
-        last_use_position = origin_position
-        tool_change = origin_tool_change
-        position = last_use_position
-        data = best[:]
-        # if verbose > 0:
-        #     print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
-        #           f"e={tool_change}, current={data}")
-        while (count + tool_change > 0) and (tool_change > - limit):
+
+    count = origin_count
+    last_use_position = origin_position
+    tool_change = origin_tool_change
+    position = last_use_position
+    data = best[:]
+    while (count + tool_change > 0) and (tool_change > - limit):
+        if verbose > 0:
+            print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
+                  f"e={tool_change}, current={data}")
+        if tool == 0:
+            exist_exchange = False
+            exist_pos = 0
+            for i in range(position, width - 1):
+                if (data[i] == 1) and (data[i + 1] == 0):
+                    exist_exchange = True
+                    exist_pos = i
+                    break
+            if not exist_exchange:
+                tool = 1
+                tool_change -= 1
+                position = origin_tool_change - tool_change + 1
+                if verbose > 0:
+                    print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
+                          f"e={tool_change}, current={data}")
+                if tool_change < 0:
+                    break
+                continue
+            else:
+                position = exist_pos
+            message = f"{colorize_swap(data, position, position + 1)} -> "
+            data[position], data[position + 1] = data[position + 1], data[position]
+            message += f"{colorize_swap(data, position, position + 1)}"
             if verbose > 0:
-                print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
-                      f"e={tool_change}, current={data}")
-            if tool == 0:
-                exist_exchange = False
-                exist_pos = 0
-                for i in range(position, width - 1):
-                    if (data[i] == 1) and (data[i + 1] == 0):
-                        exist_exchange = True
-                        exist_pos = i
-                        break
-                if not exist_exchange:
-                    tool = 1
-                    tool_change -= 1
-                    position = origin_tool_change - tool_change + 1
-                    if verbose > 0:
-                        print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
-                              f"e={tool_change}, current={data}")
-                    if tool_change < 0:
-                        break
-                    continue
-                else:
-                    position = exist_pos
-                message = f"{colorize_swap(data, position, position + 1)} -> "
-                data[position], data[position + 1] = data[position + 1], data[position]
-                message += f"{colorize_swap(data, position, position + 1)}"
+                print(message)
+            count -= 1
+            position += 1
+        elif tool == 1:
+            exist_exchange = False
+            exist_pos = 0
+            for i in range(position - 2, width - 1):
+                if (data[i] == 1) and (data[i + 2] == 0):
+                    exist_exchange = True
+                    exist_pos = i
+                    break
+            if not exist_exchange:
+                tool = 0
+                tool_change -= 1
+                position = origin_tool_change - tool_change + 1
                 if verbose > 0:
-                    print(message)
-                count -= 1
-                position += 1
-            elif tool == 1:
-                exist_exchange = False
-                exist_pos = 0
-                for i in range(position - 2, width - 1):
-                    if (data[i] == 1) and (data[i + 2] == 0):
-                        exist_exchange = True
-                        exist_pos = i
-                        break
-                if not exist_exchange:
-                    tool = 0
-                    tool_change -= 1
-                    position = origin_tool_change - tool_change + 1
-                    if verbose > 0:
-                        print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
-                              f"e={tool_change}, current={data}")
-                    continue
-                else:
-                    position = exist_pos
-                message = f"{colorize_swap(data, position, position + 2)} -> "
-                data[position], data[position + 2] = data[position + 2], data[position]
-                message += f"{colorize_swap(data, position, position + 2)}"
-                if verbose > 0:
-                    print(message)
-                count -= 1
-                position += 2
-        if (count == 0) and (tool_change == 0):
-            return list_to_str(data)
-    # TODO
-    return ""
+                    print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
+                          f"e={tool_change}, current={data}")
+                continue
+            else:
+                position = exist_pos
+            message = f"{colorize_swap(data, position, position + 2)} -> "
+            data[position], data[position + 2] = data[position + 2], data[position]
+            message += f"{colorize_swap(data, position, position + 2)}"
+            if verbose > 0:
+                print(message)
+            count -= 1
+            position += 2
+    return list_to_str(data)
 
 # if position == width - 1:
 #     position = 0
