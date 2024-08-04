@@ -85,16 +85,18 @@ def n3c_validation():
                 recovery = n3lang.n3recovery.n3c_recovery(**inputs)
                 assertion = recovery == v
                 variants = []
-                # if r1.__contains__(k):
-                #     variants.append(r1[k][0])
-                print(f"{colorize_bool(assertion)} width={width} " + \
-                      f"conflict={conflict} '{v}' -> '{k}' -> '{recovery}'  variants={variants}")
+                for j in r1:
+                    if v in r1[j]:
+                        variants.append(j)
+                if assertion:
+                    print(f"{colorize_bool(assertion)} width={width} " + \
+                          f"conflict={conflict} '{v}' -> '{k}' -> '{recovery}'")
                 if not assertion:
-                    pprint.pprint(r0)
-                    pprint.pprint(r1)
+                    # pass
+                    # pprint.pprint(r0)
+                    # pprint.pprint(r1)
                     # inputs["verbose"] = 1
                     # recovery = n3lang.n3recovery.n3c_recovery(**inputs)
-                if False:
                     false_operation, count, ones, position, tool_change = get_n3sort_values(variants[0])
                     inputs = {
                         "width": width,
