@@ -10,7 +10,7 @@ from n3utils import colorize_bool, get_n3sort_values, get_sum_width, list_to_str
 def n3c_validation():
     verbose = 1
     # print(get_annotation())
-    print(f"Decompressing...")
+    # print(f"Decompressing...")
     for width in range(1, 7):
         # [8, 32, 512, 65536]
         results = dict()
@@ -19,7 +19,7 @@ def n3c_validation():
             arr = [int(char) for char in s]
             data = arr[:]
             if verbose > 0:
-                print(f"\nCompressing...\n")
+                print(f"Compressing...\n")
             values = n3c_sort(data, verbose)
             inputs = {
                 "width": width,
@@ -36,6 +36,7 @@ def n3c_validation():
             print(f"{colorize_bool(assertion)} width={width} " + \
                   f"'{s}' -> '{recovery}'")
             assert assertion
+
 
 def main(degrees=None, verbose=0) -> str:
     if degrees is None:
