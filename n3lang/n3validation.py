@@ -80,7 +80,7 @@ def n3c_validation():
 
 if __name__ == "__main__":
     # A = 1 + LIM W->+INFINITY: LEN(C) * MAX([LOG2(C[0], LOG2(C[1], ..., C[W-1])])
-    # A = 1 + LIM LOG2[W-1] as W->+INFINITY  # WolframAlpha formula
+    # A = 1 + LIM LOG2[W+1] as W->+INFINITY  # WolframAlpha formula
     # A = W
     n3c_validation()
 
