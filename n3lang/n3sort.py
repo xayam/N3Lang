@@ -3,7 +3,7 @@ from typing import List
 from n3utils import colorize_swap
 
 
-def n3c_sort(input_data: List[int], verbose=0):
+def n3c_sort(input_data: List[int], verbose=0) -> dict:
     data = input_data[:]
     width = len(data)
     ones = 0
@@ -19,16 +19,18 @@ def n3c_sort(input_data: List[int], verbose=0):
         "ones": ones,
         "zeros": width - ones,
         "position": 0,
+        "tool": 0,
         "tool_change": 0,
     }
     if best == data:
-        return outputs, outputs
+        return outputs
     for tool in [0, 1]:
         count = 0
         tool_change = 0
         position = width - 1
         last_use_position = position
         last_tool_position = position
+        data = input_data[:]
         while best != data:
             if verbose > 0:
                 print(f"c={count} o={ones} p={position} t={tool} " +
@@ -92,9 +94,9 @@ def n3c_sort(input_data: List[int], verbose=0):
             "tool": tool,
             "tool_change": tool_change,
         }
-        result.append(outputs)
-        data = input_data[:]
-    return result
+        if best == data:
+            return outputs
+    return {}
 
 
 if __name__ == "__main__":
