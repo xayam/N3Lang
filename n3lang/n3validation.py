@@ -111,7 +111,7 @@ def main(data=None, verbose=0) -> str:
 if __name__ == "__main__":
     # ? P(W)
     # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
-    # C = P(W) + 1
+    # L = math.ceil(P(W)) + 1
 
     # main(data=[3, 9, 23, 55], verbose=1)
 
