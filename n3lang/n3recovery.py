@@ -1,7 +1,7 @@
 from n3utils import colorize_swap
 
 
-def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
+def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0) -> str:
     data = [1] * ones + [0] * (width - ones)
     while count > 0:
         if verbose > 0:
@@ -38,4 +38,4 @@ def n3c_recovery(width, count, ones, pos, tool, change_tool, verbose=0):
                     pos += 2
             else:
                 pos += 1
-    return data
+    return "".join(map(str, data))

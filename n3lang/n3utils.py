@@ -1,3 +1,4 @@
+import re
 import sys
 
 import colorama
@@ -63,3 +64,11 @@ w - width, длина входной последовательности
                                     на котором закончилось изменение последовательности.
                       e - exchange, количество смены tool.
 """
+
+def get_n3sort_values(data: str) -> list:
+    pattern = r"c=(\d+)\s+o=(\d+)\s+p=(\d+)\s+t=(\d+)\s+e=(\d+)"
+    result = re.findall(pattern, data)
+    if result:
+        return [int(i) for i in result[0]]
+    else:
+        return []
