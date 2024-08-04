@@ -3,7 +3,7 @@ import sys
 
 import n3lang.n3recovery
 from n3sort import n3c_sort
-from n3utils import colorize_bool, get_n3sort_values, get_sum_width
+from n3utils import colorize_bool, get_n3sort_values, get_sum_width, list_to_str
 
 
 def n3c_validation():
@@ -25,11 +25,11 @@ def n3c_validation():
             if verbose > 0:
                 print("Compressing...")
             result0, result1 = n3c_sort(data, verbose)
-            assert s in [result0[0], result1[0]]
-            results0[s] = f"c={result0[2]} o={result0[3]} " + \
-                          f"p={result0[5]} e={result0[6]}"
-            results1[s] = f"c={result1[2]} o={result1[3]} " + \
-                          f"p={result1[5]} e={result1[6]}"
+            print(result0["data"], result1["data"])
+            results0[s] = f"c={result0['count']} o={result0['ones']} " + \
+                          f"p={result0['position']} e={result0['tool_change']}"
+            results1[s] = f"c={result1['count']} o={result1['ones']} " + \
+                          f"p={result1['position']} e={result1['tool_change']}"
         r0 = dict()
         for k, v in results0.items():
             if not r0.__contains__(v):

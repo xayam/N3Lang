@@ -13,7 +13,7 @@ def n3c_sort(input_data: List[int], verbose=0):
     result = []
     best = [1] * ones + [0] * (width - ones)
     outputs = {
-        "degrees": input_data,
+        "data": input_data,
         "false_operation": 1,
         "count": 0,
         "ones": ones,
@@ -22,8 +22,7 @@ def n3c_sort(input_data: List[int], verbose=0):
         "tool_change": 0,
     }
     if best == data:
-        output = outputs.values()
-        return output, output
+        return outputs, outputs
     for tool in [0, 1]:
         count = 0
         tool_change = 0
@@ -78,7 +77,7 @@ def n3c_sort(input_data: List[int], verbose=0):
                     count += 1
                 position -= 2
         outputs = {
-            "degrees": data,
+            "data": data,
             "false_operation": 0,
             "count": count - 1,
             "ones": ones,
@@ -86,9 +85,9 @@ def n3c_sort(input_data: List[int], verbose=0):
             "position": position,
             "tool_change": tool_change,
         }
-        result.append(outputs.values())
+        result.append(outputs)
         data = input_data[:]
-    return result[0], result[1]
+    return result
 
 
 if __name__ == "__main__":
