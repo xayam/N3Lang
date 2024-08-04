@@ -8,44 +8,34 @@ from n3utils import colorize_bool, get_n3sort_values, get_sum_width, list_to_str
 
 
 def n3c_validation():
-    verbose = 0
+    verbose = 1
     # print(get_annotation())
     print(f"Decompressing...")
-    width = 0
-    # while True:
     for width in range(1, 7):
         # [8, 32, 512, 65536]
-        # width += 1
         results = dict()
         for d in range(2 ** width):
             s = f"{d:{width}b}".replace(" ", "0")
             arr = [int(char) for char in s]
             data = arr[:]
             if verbose > 0:
-                print("Compressing...")
-            res = n3c_sort(data, verbose)
-            results[s] = f"f={res['false_operation']} c={res['count']} o={res['ones']} " + \
-                         f"p={res['position']} t={res['tool']} e={res['tool_change']}"
-        for k, v in results.items():
-            values = get_n3sort_values(v)
-            if values:
-                false_operation, count, ones, position, tool, tool_change = values
-                inputs = {
-                    "width": width,
-                    "false_operation": false_operation,
-                    "count": count,
-                    "ones": ones,
-                    "position": position,
-                    "tool": tool,
-                    "tool_change": tool_change,
-                    "verbose": 1
-                }
-                recovery = n3lang.n3recovery.n3c_recovery(**inputs)
-                assertion = recovery == k
-                print(f"{colorize_bool(assertion)} width={width} " + \
-                      f"'{k}' -> '{v}' -> '{recovery}'")
-                assert assertion
-
+                print(f"\nCompressing...\n")
+            values = n3c_sort(data, verbose)
+            inputs = {
+                "width": width,
+                "false_operation": values["false_operation"],
+                "count": values["count"],
+                "ones": values["ones"],
+                "position": values["position"],
+                "tool": values["tool"],
+                "tool_change": values["tool_change"],
+                "verbose": 1
+            }
+            recovery = n3lang.n3recovery.n3c_recovery(**inputs)
+            assertion = recovery == s
+            print(f"{colorize_bool(assertion)} width={width} " + \
+                  f"'{s}' -> '{recovery}'")
+            assert assertion
 
 def main(degrees=None, verbose=0) -> str:
     if degrees is None:
@@ -85,82 +75,3 @@ if __name__ == "__main__":
     # main(verbose=1)
 
     n3c_validation()
-
-# results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
-# print(f"!!!!!!{len(results0)}, {len(set(results0.values()))}")
-# results1 = {k: v for k, v in sorted(results1.items(), key=lambda i: i[1])}
-
-# if verbose > 0:
-#     print(origin_pars)
-#     print(pars)
-# for i in pars:
-#     if pars[i] == pars[s]:
-#         print(f"width={str(width).rjust(2, ' ')} | " + \
-#               f"{str(int(s, 2)).rjust(2, ' ')} <-> " + \
-#               f"{str(int(i, 2)).rjust(2, ' ' )} = " + \
-#               f"'{s.rjust(31, ' ')}' <-> " + \
-#               f"'{i.rjust(31, ' ')}' = '{pars[s]}'")
-#         break
-
-# for i in pars:
-#     if (pars[i] == pars[s]) and (i != s):
-#         print(f"w={str(width).rjust(2, ' ')} | " + \
-#               f"{str(int(s, 2)).rjust(3, ' ')} <-> " + \
-#               f"{str(int(i, 2)).rjust(3, ' ')} = " + \
-#               f"'{s.rjust(9, ' ')}' <-> " + \
-#               f"'{i.rjust(9, ' ')}' = '{pars[s]}'")
-#         break
-
-# print(result)
-# print(
-#     f"width={width}",
-#     len(conflict), len(set(conflict)),
-#     len(result), len(set(result.values()))
-# )
-
-# for step in [result0, result1]:
-#     degrees, count, ones, zero, position, tool, tool_change = result0
-#
-#     pars[s] = f"c={count} o={ones} p={position} t={tool} e={tool_change}"
-#     origin_pars = pars.copy()
-#     pars = {k: v for k, v in sorted(pars.items(), key=lambda item: item[1])}
-#
-#     if count > max_count:
-#         max_count = count
-#     if tool_change > max_change_tool:
-#         max_change_tool = tool_change
-#     bits = 1
-#     bits += math.ceil(math.log2(max_count + 1))
-#     bits += math.ceil(math.log2(max_change_tool + 1))
-#     bits += 2 * math.ceil(math.log2(width))
-#     if bits > max_bits:
-#         max_bits = bits
-#     assertion = degrees == [1] * ones + [0] * zero
-#     assert assertion
-#     # print("Decompressing...")
-#     # recovery = n3c_recovery(width, count, ones, position, tool, tool_change, 1)
-#     recovery = arr
-#     assertion = recovery == arr
-#     len_pars = len(origin_pars)
-#     len_set_pars = len(set(origin_pars.values()))
-#     no_conflict = len_pars == len_set_pars
-#     can_compress = max_bits <= width
-#     if verbose > 0:
-#         print(
-#             f"{colorize_bool(no_conflict)} " +
-#             f"{colorize_bool(can_compress)} " +
-#             f"width={width}, arr={arr}, all={len_pars}, unique={len_set_pars}" +
-#             f"{str(100 * (d + 1) / 2 ** width)[0:6].rjust(7, ' ')}%, " + \
-#             # f"arr={arr}, recovery={recovery}, " + \
-#             f"max_bits={max_bits}, max_count={max_count}, " + \
-#             f"max_change_tool={max_change_tool}")
-#     if not assertion:
-#         print(f"{arr} -> {degrees} -> {recovery}")
-#         print(f"{colorize(' ERROR ')} input != output")
-#         sys.exit(1)
-#     if not no_conflict:
-#         if verbose > 0:
-#             print(f"{colorize(' ERROR ')} Collision found")
-#             print(origin_pars)
-#             print(pars)
-#         continue
