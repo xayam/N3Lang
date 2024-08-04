@@ -79,7 +79,8 @@ def n3c_validation():
 
 
 if __name__ == "__main__":
-    # ??? A = LIM W->INFINITY: LOG2(W+1) + LEN(C) * MAX(LOG2(Ci)) + 1
+    # A = LIM W->+INFINITY: LEN(C) * MAX([LOG2(C[0], LOG2(C[1], ..., C[W-1])])
+    # A = 1 + LOG2(W-1)
     n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
