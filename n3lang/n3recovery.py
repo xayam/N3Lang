@@ -14,6 +14,7 @@ def n3c_recovery(width,
     data = best[:]
     if false_operation:
         return list_bool_to_str(best)
+    count += 1
     limit = 2 ** math.ceil(get_sum_width(width - 1))
     input_change_tool = tool_change
     for tool in [0, 1]:

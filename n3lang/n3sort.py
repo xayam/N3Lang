@@ -12,7 +12,7 @@ def n3c_sort(input_data: List[bool], verbose=0):
             ones += 1
     result = []
     best = [1] * ones + [0] * (width - ones)
-    params = {
+    outputs = {
         "data": input_data,
         "false_operation": 1,
         "count": 0,
@@ -22,9 +22,8 @@ def n3c_sort(input_data: List[bool], verbose=0):
         "tool_change": 0,
     }
     if best == data:
-        result.append(*params.values())
-        result.append(*params.values())
-        return result[0], result[1]
+        output = outputs.values()
+        return output, output
     for tool in [0, 1]:
         count = 0
         tool_change = 0
@@ -78,7 +77,16 @@ def n3c_sort(input_data: List[bool], verbose=0):
                         print(message)
                     count += 1
                 position -= 2
-        result.append((data, count, ones, width - ones, position, tool_change))
+        outputs = {
+            "data": data,
+            "false_operation": 0,
+            "count": count - 1,
+            "ones": ones,
+            "zeros": width - ones,
+            "position": position,
+            "tool_change": tool_change,
+        }
+        result.append(outputs.values())
         data = input_data[:]
     return result[0], result[1]
 
