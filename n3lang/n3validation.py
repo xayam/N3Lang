@@ -1,3 +1,6 @@
+import math
+import sys
+
 import n3lang.n3recovery
 from n3sort import n3c_sort
 from n3utils import colorize_bool, get_n3sort_values
@@ -82,11 +85,17 @@ if __name__ == "__main__":
     # ? P(W)
     # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
     # W = P(W)
-    #
-    # W = 32
+
     # P(32) = 10 = math.ceil( sum log2[x + 1], x = 1 to log2[32] )
-    # i.e. log2(10) + log2(32) = 4 + 5 = 9 bits
+    # i.e. math.ceil(log2(10)) + math.ceil(log2(32)) = 4 + 5 = 9 bits
     # and 1 bit for choice start tool: 9 + 1 = 10 bits
+    windows = [2, 4, 8, 16, 32]
+    for width in windows:
+        summa = 0
+        for x in range(1, math.ceil(math.log2(width + 1))):
+            summa += math.log2(x+1)
+        print(width, summa)
+    sys.exit(0)
     n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
