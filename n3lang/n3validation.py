@@ -12,7 +12,7 @@ def n3c_validation():
     # print(get_annotation())
     # print(f"Decompressing...")
     for width in range(1, 7):
-        # [8, 32, 512, 65536]
+        # [8, 32, 512,  65536]
         results = dict()
         for d in range(2 ** width):
             s = f"{d:{width}b}".replace(" ", "0")
