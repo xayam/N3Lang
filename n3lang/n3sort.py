@@ -10,10 +10,9 @@ def n3c_sort(input_data: List[int], verbose=0) -> dict:
     for i in data:
         if i == 1:
             ones += 1
-    result = []
     best = [1] * ones + [0] * (width - ones)
     outputs = {
-        "data": input_data,
+        "data": best,
         "false_operation": 1,
         "count": 0,
         "ones": ones,
@@ -85,7 +84,7 @@ def n3c_sort(input_data: List[int], verbose=0) -> dict:
                     count += 1
                 position -= 2
         outputs = {
-            "data": data,
+            "data": best,
             "false_operation": 0,
             "count": count - 1,
             "ones": ones,
