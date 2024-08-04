@@ -17,11 +17,16 @@ def n3c_recovery(width: int,
     limit = 2 ** math.ceil(get_sum_width(width - 1))
     origin_count = count
     origin_position = position
+    origin_tool_change = tool_change
     for tool in [0, 1]:
         count = origin_count
         last_use_position = origin_position
+        tool_change = origin_tool_change
         position = last_use_position
         data = best[:]
+        # if verbose > 0:
+        #     print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
+        #           f"e={tool_change}, current={data}")
         while (count + tool_change > 0) and (tool_change > - limit):
             if verbose > 0:
                 print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
@@ -37,7 +42,7 @@ def n3c_recovery(width: int,
                 if not exist_exchange:
                     tool = 1
                     tool_change -= 1
-                    position = input_change_tool - tool_change + 1
+                    position = origin_tool_change - tool_change + 1
                     if verbose > 0:
                         print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
                               f"e={tool_change}, current={data}")
@@ -56,7 +61,7 @@ def n3c_recovery(width: int,
             elif tool == 1:
                 exist_exchange = False
                 exist_pos = 0
-                for i in range(position, width - 1):
+                for i in range(position - 2, width - 1):
                     if (data[i] == 1) and (data[i + 2] == 0):
                         exist_exchange = True
                         exist_pos = i
@@ -64,7 +69,7 @@ def n3c_recovery(width: int,
                 if not exist_exchange:
                     tool = 0
                     tool_change -= 1
-                    position = input_change_tool - tool_change + 1
+                    position = origin_tool_change - tool_change + 1
                     if verbose > 0:
                         print(f"f={false_operation} c={count} o={ones} p={position} t={tool} " +
                               f"e={tool_change}, current={data}")
