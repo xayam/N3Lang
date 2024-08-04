@@ -82,7 +82,11 @@ if __name__ == "__main__":
     # ? P(W)
     # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
     # W = P(W)
-    # C = W
+    #
+    # W = 32
+    # P(32) = 10 = math.ceil( sum log2[x + 1], x = 1 to log2[32] )
+    # i.e. log2(10) + log2(32) = 4 + 5 = 9 bits
+    # and 1 bit for choice start tool: 9 + 1 = 10 bits
     n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
