@@ -10,12 +10,11 @@ def n3c_validation():
     verbose = 0
     # print(get_annotation())
     print(f"Decompressing...")
-    for width in [2, 3, 4, 5, 6, 7, 8]:  # [8, 32, 512, 65536]
-        no_conflict = True
-        # max_count = 0
-        # max_change_tool = 0
-        # max_bits = 1
-        # pars = dict()
+    width = 1
+    while True:
+        # for width in [2, 3, 4, 5, 6, 7, 8]:
+        # [8, 32, 512, 65536]
+        width += 1
         results0 = dict()
         results1 = dict()
         for d in range(2 ** width):
@@ -25,7 +24,6 @@ def n3c_validation():
             if verbose > 0:
                 print("Compressing...")
             result0, result1 = n3c_sort(data, verbose)
-            # print(result0["data"], result1["data"])
             results0[s] = f"f={result0['false_operation']} c={result0['count']} o={result0['ones']} " + \
                           f"p={result0['position']} e={result0['tool_change']}"
             results1[s] = f"f={result0['false_operation']} c={result1['count']} o={result1['ones']} " + \
@@ -75,7 +73,6 @@ def n3c_validation():
                     "tool_change": tool_change,
                     "verbose": 0
                 }
-                # print(f"{v} = '{k}'")
                 recovery = n3lang.n3recovery.n3c_recovery(*inputs)
                 assertion = recovery == k
                 print(f"{colorize_bool(assertion)} width={width} | {k} -> '{v}' -> {recovery}")
