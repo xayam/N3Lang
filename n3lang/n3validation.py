@@ -10,7 +10,7 @@ def n3c_validation():
     verbose = 0
     # print(get_annotation())
     print(f"Decompressing...")
-    for width in [x for x in range(1, 7)]:
+    for width in [2 ** x for x in range(1, 7)]:
         no_conflict = True
         # max_count = 0
         # max_change_tool = 0
@@ -91,7 +91,6 @@ def get_sum(width: int) -> float:
 def main(data=None, verbose=0) -> str:
     if data is None:
         windows = [2 ** i - 1 for i in [1, 2, 3, 5, 9, 16]]
-        # [2 ** i - 1 for i in range(1, 29)]
     else:
         windows = [2 ** i for i in data]
     result = ""
@@ -121,11 +120,11 @@ if __name__ == "__main__":
     # ? P(W)
     # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
     # C = P(W) + 1
-    # P(32) = 10 = math.ceil( sum log2[x + 1], x = 1 to log2[32] )
-    # and + 1 bit for choice start tool: 10 + 1 = 11 bits
 
     # main(data=[3, 9, 23, 55], verbose=1)
+
     main(verbose=1)
+
     # n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
