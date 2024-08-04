@@ -89,12 +89,14 @@ if __name__ == "__main__":
     # P(32) = 10 = math.ceil( sum log2[x + 1], x = 1 to log2[32] )
     # i.e. math.ceil(log2(10)) + math.ceil(log2(32)) = 4 + 5 = 9 bits
     # and 1 bit for choice start tool: 9 + 1 = 10 bits
-    windows = [2, 4, 8, 16, 32]
+    windows = [1, 2, 4, 8, 16, 32]
     for width in windows:
         summa = 0
         for x in range(1, math.ceil(math.log2(width + 1))):
             summa += math.log2(x+1)
-        print(width, summa)
+        print(f"width={str(width).rjust(2, ' ')}, " +
+              f"summa={str(summa)[:3].rjust(3, ' ')}, " +
+              f"max_bits={str(math.ceil(summa)).rjust(2, ' ')}")
     sys.exit(0)
     n3c_validation()
 
