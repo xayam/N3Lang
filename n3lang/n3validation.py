@@ -100,7 +100,7 @@ def main(data=None, verbose=0) -> str:
         max_bits = max_count + max_ones + 1
         percent = max_bits / width
         result += \
-            f"width={str(width).rjust(4, ' ')}, " + \
+            f"width={str(width).rjust(17, ' ')}, " + \
             f"summa={str(summa)[:3].rjust(5, ' ')}, " + \
             f"max_count={str(max_count).rjust(2, ' ')}, " + \
             f"max_ones={str(max_ones).rjust(2, ' ')}, " + \
@@ -112,7 +112,7 @@ def main(data=None, verbose=0) -> str:
 
 
 if __name__ == "__main__":
-    main(data=[3, 9], verbose=1)
+    main(data=[3, 9, 23, 55], verbose=1)
     # n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
