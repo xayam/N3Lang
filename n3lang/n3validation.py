@@ -81,38 +81,51 @@ def n3c_validation():
             pass
 
 
+def get_sum(width: int) -> float:
+    summa = 0
+    for x in range(1, math.ceil(math.log2(width + 1))):
+        summa += math.log2(x + 1)
+    return summa
+
+
 def main(data=None, verbose=0) -> str:
     if data is None:
-        data = range(1, 10)
-    # ? P(W)
-    # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
-    # C = P(W) + 1
-    # P(32) = 10 = math.ceil( sum log2[x + 1], x = 1 to log2[32] )
-    # and + 1 bit for choice start tool: 10 + 1 = 11 bits
-    windows = [2 ** i for i in data]
+        windows = [2 ** i - 1 for i in [1, 2, 3, 5, 9, 16]]
+        # [2 ** i - 1 for i in range(1, 29)]
+    else:
+        windows = [2 ** i for i in data]
     result = ""
+    index = 0
     for width in windows:
-        summa = 0
-        for x in range(1, math.ceil(math.log2(width + 1))):
-            summa += math.log2(x + 1)
-        max_count = math.ceil(math.log2(summa + 1))
-        max_ones = math.ceil(math.log2(width + 1))
-        max_bits = max_count + max_ones + 1
-        percent = max_bits / width
+        index += 1
+        summa = get_sum(width)
+        summa = math.ceil(summa)
+        max_count = 2 ** summa
+        max_ones = width
+        max_bits_key = summa + math.ceil(math.log2(max_ones + 1)) + 1
+        percent = max_bits_key / width
         result += \
-            f"width={str(width).rjust(17, ' ')}, " + \
-            f"summa={str(summa)[:3].rjust(5, ' ')}, " + \
-            f"max_count={str(max_count).rjust(2, ' ')}, " + \
-            f"max_ones={str(max_ones).rjust(2, ' ')}, " + \
-            f"max_bits={str(max_bits).rjust(2, ' ')}, " + \
-            f"percent={str(100 * percent)[:6].rjust(7, ' ')}%\n"
+            f"index={str(index).rjust(1, ' ')}, " + \
+            f"width={str(width).rjust(5, ' ')}, " + \
+            f"summa={str(summa)[:3].rjust(2, ' ')}, " + \
+            f"max_count={str(max_count).rjust(14, ' ')}, " + \
+            f"max_ones={str(max_ones).rjust(5, ' ')}, " + \
+            f"max_bits_key={str(max_bits_key).rjust(2, ' ')}, " + \
+            f"percent={str(100 * percent)[:6].rjust(6, ' ')}%\n"
     if verbose > 0:
         print(result)
     return result
 
 
 if __name__ == "__main__":
-    main(data=[3, 9, 23, 55], verbose=1)
+    # ? P(W)
+    # P(W) = lim sum log2[x + 1], x = 1 to log2[y] as y->W
+    # C = P(W) + 1
+    # P(32) = 10 = math.ceil( sum log2[x + 1], x = 1 to log2[32] )
+    # and + 1 bit for choice start tool: 10 + 1 = 11 bits
+
+    # main(data=[3, 9, 23, 55], verbose=1)
+    main(verbose=1)
     # n3c_validation()
 
 # results0 = {k: v for k, v in sorted(results0.items(), key=lambda i: i[1])}
