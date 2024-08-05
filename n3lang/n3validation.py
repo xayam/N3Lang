@@ -78,7 +78,8 @@ if __name__ == "__main__":
     # w>=23: TRUE = 1 > ((4 * Ceiling[log2(w)]+2)/w)
     # w=22+4.i: 1 = ((4 * Ceiling[log2(w)] + 2) / w)
     # 1 = ((4 * Ceiling[log2(22 + y * i)] + 2) / (22 + y * i))
-    # y=4: 1 = ((4 * Ceiling[log2(22 + y * i)] + 2) / (22 + y * i))
+    # y=4: 1 == ((4*Ceiling[Log2[22 + y*I]] + 2)/(22 + y*I))
+
     # main(degrees=[3, 9, 23, 55], verbose=1)
     # main(verbose=1)
 
