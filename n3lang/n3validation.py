@@ -77,8 +77,7 @@ if __name__ == "__main__":
     # A = 0
     # W <= P(W)
 
-    # 1=(Limit[Sum[Log[2, W + 1], {W, 0, Log[2, 2^N - 1]}]/x] as N->5)
-    # 9 < x < 10
+    # 0.5<=(Limit[Sum[Log[2, W + 1], {W, 0, Log[2, 2^N - 1]}]/(2*N)] as N->M)>0
 
     # main(degrees=[3, 9, 23, 55], verbose=1)
     # main(verbose=1)
