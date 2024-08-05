@@ -18,7 +18,7 @@ def main():
                 break
             else:
                 message += f" -> {destination}"
-        print(message)
+        print(message + " -> 0")
 
 
 if __name__ == "__main__":
