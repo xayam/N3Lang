@@ -71,7 +71,7 @@ def main(degrees=None, verbose=0) -> str:
 
 if __name__ == "__main__":
     # ? P(W)
-    # P(W) = lim sum log2[x + 1], x = 0 to log2[y] as y->W
+    # P(W) = LIM SUM W/LOG2[W + 1], W = 0 to LOG2[2^N - 1] as N->+Infinity
     # W <= P(W)
     # A = Limit[W/Sum[Log[2, W + 1], {W, 0, Log[2, 2^N - 1]}]] as N->+Infinity
     # A = 0
