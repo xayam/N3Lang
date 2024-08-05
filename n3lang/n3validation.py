@@ -33,21 +33,30 @@ def n3c_validation():
 
 
 def main(degrees=None, verbose=0) -> str:
-    if degrees is None:
-        windows = [2 ** i - 1 for i in [1, 2, 3, 5, 9, 16]]
-    else:
-        windows = [2 ** i for i in degrees]
+    # if degrees is None:
+    #     windows = [i for i in range(1, 2**20)]
+    # else:
+    #     windows = [2 ** i for i in degrees]
     result = ""
     index = 0
-    for width in windows:
+    width = 0
+    while True:
         index += 1
+        if degrees is None:
+            width += 1
+        else:
+            width = 2 ** index
         summa = get_sum_width(width)
-        summa = math.ceil(summa)
+        # summa = math.ceil(summa)
         max_count = 2 ** summa
         max_ones = width
         max_bits_key = summa + math.ceil(math.log2(max_ones + 1)) + 1
         percent = max_bits_key / width
-        result += \
+        if degrees is None:
+            result += \
+            f"w={width}, summa={summa}\n"
+        else:
+            result += \
             f"index={str(index).rjust(1, ' ')}, " + \
             f"width={str(width).rjust(5, ' ')}, " + \
             f"summa={str(summa)[:3].rjust(2, ' ')}, " + \
@@ -55,18 +64,21 @@ def main(degrees=None, verbose=0) -> str:
             f"max_ones={str(max_ones).rjust(5, ' ')}, " + \
             f"max_bits_key={str(max_bits_key).rjust(2, ' ')}, " + \
             f"percent={str(100 * percent)[:6].rjust(6, ' ')}%\n"
-    if verbose > 0:
-        print(result)
+        if verbose > 0:
+            print(result)
     return result
 
 
 if __name__ == "__main__":
     # ? P(W)
     # P(W) = lim sum log2[x + 1], x = 0 to log2[y] as y->W
-    # W = P(W)
+    # W <= P(W) + A
+    # A = Limit[W/Sum[Log[2, W + 1], {W, 0, Log[2, 2^N - 1]}]] as N->+Infinity
+    # A = 0
+    # W <= P(W)
 
     # main(degrees=[3, 9, 23, 55], verbose=1)
 
-    main(verbose=1)
+    # main(verbose=1)
 
-    # n3c_validation()
+    n3c_validation()
