@@ -71,8 +71,9 @@ def main(degrees=None, verbose=0) -> str:
 
 if __name__ == "__main__":
     # ? P(W)
-    # P(W) = Limit[Sum[Log[2, W + 1], {W, 0, Log[2, 2 ^ N - 1]}]] as N->+Infinity
+    # P(W) = Limit[Sum[Log[2, W + 1], {W, 0, Log[2, 2 ^ N - 1]}]] as N->M
     # 0.5 <= P(W) > 0
+    # N=5: 10>=(Sum[Log[2, W + 1], {W, 0, Log[2, 2 ^ N - 1]}])>0
 
     # main(degrees=[3, 9, 23, 55], verbose=1)
     # main(verbose=1)
