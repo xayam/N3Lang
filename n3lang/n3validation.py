@@ -78,6 +78,7 @@ if __name__ == "__main__":
     # W <= P(W)
 
     # 0.5 <= (Limit[Sum[Log[2, W + 1], {W, 0, Log[2, 2^N - 1]}]/N] as N->+Infinity) > 0
+    # 0.5 <= (lim_(N->+Infinity) ( sum_(W=0)^log(2, 2^N - 1) log(2, W + 1))/N) > 0
 
     # main(degrees=[3, 9, 23, 55], verbose=1)
     # main(verbose=1)
