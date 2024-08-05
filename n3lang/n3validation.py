@@ -72,13 +72,9 @@ def main(degrees=None, verbose=0) -> str:
 if __name__ == "__main__":
     # ? P(W)
     # P(W) = lim sum log2[x + 1], x = 0 to log2[y] as y->W
-    # W <= P(W) + A
+    # W <= P(W)
     # A = Limit[W/Sum[Log[2, W + 1], {W, 0, Log[2, 2^N - 1]}]] as N->+Infinity
     # A = 0
-    # W <= P(W)
-
-    # 0.5 <= (Limit[Sum[Log[2, W + 1], {W, 0, Log[2, 2^N - 1]}]/N] as N->+Infinity) > 0
-    # 0.5 <= (lim_(N->+Infinity) ( sum_(W=0)^log(2, 2^N - 1) log(2, W + 1))/N) > 0
 
     # main(degrees=[3, 9, 23, 55], verbose=1)
     # main(verbose=1)
