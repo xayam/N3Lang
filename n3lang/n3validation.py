@@ -73,7 +73,7 @@ if __name__ == "__main__":
     # ? P(W)
     # P(W) = LIM SUM W/LOG2[W + 1], W = 0 to LOG2[2^N - 1] as N->+Infinity
     # W <= P(W)
-    # 1>=(Limit[N/Sum[Log[2, W + 1], {W, 0, Log[2, 2^N - 1]}]] as N->M)>0
+    # 0.5 <= (Limit[Sum[Log[2, W + 1], {W, 0, Log[2, 2^N - 1]}]] as N->+Infinity) > 0
 
     # main(degrees=[3, 9, 23, 55], verbose=1)
     # main(verbose=1)
