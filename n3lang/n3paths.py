@@ -40,13 +40,25 @@ def n3c_get_new_name(old_name: int, width=32) -> list:
     return [old_name] + n3c_get_path_by_name(old_name, width)
 
 
-def main(width=32):
-    for i in range(width):
-        paths = n3c_get_new_name(width)
+def main(name: int = 0, width: int = 32) -> list:
+    assert width > 0
+    assert 0 <= name <= width
+    paths = []
+    if name == 0:
+        for i in range(width):
+            paths = n3c_get_new_name(width)
+            len_paths = len(paths)
+            len_set_paths = len(set(paths))
+            print(len_paths, paths, len_set_paths)
+            assert len_paths == len_set_paths
+        return []
+    else:
+        paths = n3c_get_new_name(name)
         len_paths = len(paths)
         len_set_paths = len(set(paths))
         print(len_paths, paths, len_set_paths)
         assert len_paths == len_set_paths
+    return paths
 
 
 def test():
@@ -130,4 +142,4 @@ def test():
 
 
 if __name__ == "__main__":
-    main(width=32)
+    main(name=0, width=32)
