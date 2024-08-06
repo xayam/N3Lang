@@ -17,7 +17,8 @@ def n3c_limit(width=32) -> int:
 
 def n3c_get_path_by_name(name: int = 0, width: int = 32) -> list:
     limit = n3c_limit(width)
-    assert width >= name >= 0
+    # print(width, name)
+    assert name >= 0
     passenger = name
     paths = [0]
     destination = passenger
@@ -41,7 +42,7 @@ def n3c_get_new_name(old_name: int, width=32) -> list:
     return [old_name] + n3c_get_path_by_name(old_name, width)
 
 
-def main(name: int = 0, width: int = 32) -> list:
+def n3c_paths(name: int = 0, width: int = 32, verbose=0) -> list:
     assert width > 0
     assert 0 <= name <= width
     result = []
@@ -52,15 +53,29 @@ def main(name: int = 0, width: int = 32) -> list:
             len_set_paths = len(set(paths))
             assert len_paths - len_set_paths == 1
             result.append(paths)
-        pprint.pprint(result)
+        if verbose > 0:
+            pprint.pprint(result)
+        assert len(result) == width
         return result
     else:
         paths = n3c_get_new_name(name)
         len_paths = len(paths)
         len_set_paths = len(set(paths))
-        print(paths, len_paths, len_set_paths)
+        if verbose > 0:
+            print(paths, len_paths, len_set_paths)
         assert len_paths - len_set_paths == 1
         return paths
+
+
+def main(maximum: int):
+    for width in range(1, maximum):
+        paths = n3c_paths(width=width, verbose=0)
+        assert paths
+        if (len(paths) == 1) and (paths[0][0] == 0):
+            print(paths[0])
+            continue
+        print(paths)
+        assert len(paths) - len(set(paths)) == 1
 
 
 def test():
@@ -144,4 +159,7 @@ def test():
 
 
 if __name__ == "__main__":
-    main(name=0, width=32)
+
+    main(maximum=64)
+
+    # n3c_paths(name=0, width=32)
