@@ -80,7 +80,7 @@ if __name__ == "__main__":
     # 1 == ((4*Ceiling[Log2[22 + y*I]] + 2)/(22 + y*I))
     # y=4: 1 == ((4*Ceiling[Log2[22 + y*I]] + 2)/(22 + y*I))
 
-    # main(degrees=[3, 9, 23, 55], verbose=1)
-    # main(verbose=1)
+    # n3c_get_path_by_name(degrees=[3, 9, 23, 55], verbose=1)
+    # n3c_get_path_by_name(verbose=1)
 
     n3c_validation()

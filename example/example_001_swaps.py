@@ -60,7 +60,7 @@ def test2():
             pars.append(f"{count}_{one}")
             # res = o == i
             # if not res:
-            #     i, o = main(arr, verbose=1)
+            #     i, o = n3c_get_path_by_name(arr, verbose=1)
             # print("Result: " + colorize_bool(res))
             # print(f"Input data1 for compress: {i}")
             # print(f"Output n3c_recovery data1: {o}")
