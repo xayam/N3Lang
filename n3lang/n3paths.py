@@ -74,7 +74,8 @@ def main(maximum: int):
         paths = n3c_paths(width=width, verbose=0)
         result.append(paths)
         assert paths
-        print(paths)
+    pprint.pprint(result, width=len(result[-1]) ** 2 - len(result[-1][-1]) ** 2)
+        # print(paths)
         # if type(paths[0]) is list:
             # (paths[-1][-1] == limit):
             # (len(paths[0]) > 2) and \
