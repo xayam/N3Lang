@@ -50,7 +50,6 @@ def main(name: int = 0, width: int = 32) -> list:
             paths = n3c_get_new_name(i)
             len_paths = len(paths)
             len_set_paths = len(set(paths))
-            # print(paths, len_paths, len_set_paths)
             assert len_paths - len_set_paths == 1
             result.append(paths)
         pprint.pprint(result)
