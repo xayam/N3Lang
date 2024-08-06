@@ -68,14 +68,21 @@ def n3c_paths(name: int = 0, width: int = 32, verbose=0) -> list:
 
 
 def main(maximum: int):
+    result = []
     for width in range(1, maximum):
+        limit = n3c_limit(width)
         paths = n3c_paths(width=width, verbose=0)
+        result.append(paths)
         assert paths
-        if (len(paths) == 1) and (paths[0][0] == 0):
-            print(paths[0])
-            continue
         print(paths)
-        assert len(paths) - len(set(paths)) == 1
+        # if type(paths[0]) is list:
+            # (paths[-1][-1] == limit):
+            # (len(paths[0]) > 2) and \
+            # (paths[0][0] == 0) and \
+            # assert len(paths[0]) - len(set(paths[0])) == 1
+            # continue
+        # if not type(paths[0]) is list:
+        #     assert len(paths) - len(set(paths)) == 1
 
 
 def test():
@@ -159,7 +166,6 @@ def test():
 
 
 if __name__ == "__main__":
-
     main(maximum=64)
 
     # n3c_paths(name=0, width=32)
