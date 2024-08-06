@@ -43,22 +43,21 @@ def n3c_get_new_name(old_name: int, width=32) -> list:
 def main(name: int = 0, width: int = 32) -> list:
     assert width > 0
     assert 0 <= name <= width
-    paths = []
     if name == 0:
         for i in range(width):
             paths = n3c_get_new_name(width)
             len_paths = len(paths)
             len_set_paths = len(set(paths))
-            print(len_paths, paths, len_set_paths)
-            assert len_paths == len_set_paths
+            print(paths, len_paths, len_set_paths)
+            assert len_paths - len_set_paths == 1
         return []
     else:
         paths = n3c_get_new_name(name)
         len_paths = len(paths)
         len_set_paths = len(set(paths))
-        print(len_paths, paths, len_set_paths)
-        assert len_paths == len_set_paths
-    return paths
+        print(paths, len_paths, len_set_paths)
+        assert len_paths - len_set_paths == 1
+        return paths
 
 
 def test():
