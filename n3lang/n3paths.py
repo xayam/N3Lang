@@ -36,15 +36,16 @@ def n3c_get_path_by_name(name: int = 0, width: int = 32) -> list:
     return paths
 
 
-def get_new_name(old_name: int, width=32) -> int:
-    # name is int in range from 0 to 'width'
-    assert 0 <= old_name < width + 1
-    return old_name + 1
+def n3c_get_new_name(old_name: int, width=32) -> list:
+    return [old_name] + n3c_get_path_by_name(old_name, width)
 
 
-if __name__ == "__main__":
-    n3c_get_path_by_name(width=32)
-    sys.exit()
+def main(width=32):
+    for i in range(width):
+        print(n3c_get_new_name(width))
+
+
+def test():
     primes = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31,
               37, 41, 43, 47, 53, 59, 61, 67, 71,
               73, 79, 83, 89, 97, 101, 103,
@@ -92,8 +93,8 @@ if __name__ == "__main__":
     s = "2 ** 32 - 1 - "
     c = [[]]
     summa = 0
-    print(str(2 ** 32 - 1 - reduce(lambda x, y: x * y, [3, 5, 7, 11, 13, 17, 19, 23, 29])))
-
+    print(str(2 ** 32 - 1 - reduce(lambda x, y: x * y,
+                                   [3, 5, 7, 11, 13, 17, 19, 23, 29])))
     print(len(primes))
     p = 0
     while r != 3:
@@ -122,3 +123,7 @@ if __name__ == "__main__":
             product *= c[i][j]
         summa2 += product
     print(summa2)
+
+
+if __name__ == "__main__":
+    main(width=32)
